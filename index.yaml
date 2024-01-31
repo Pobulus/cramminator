@@ -1,0 +1,62 @@
+html:
+  - head:
+    - style:
+        - '#root':
+          - position: absolute
+          - width: 100vw
+          - height: 100vh
+        - '#testBox':
+          - padding: 1%
+          - position: absolute
+          - background: '#bbbbff'
+          - max-width: 70%
+          - min-width: 50%
+          - max-height: 80%
+          - min-height: 40%
+          - left: 50%
+          - top: 50%
+          - transform: translate(-50%, -50%)
+        - li:
+          - margin: 10px
+          - background: '#ccc'
+          - padding: 3px
+        - "li:hover":
+          - background: '#fff'
+        - "#buttonBox":
+          - position: absolute
+          - right: 50px
+   
+    - script: # jQuery
+      src: https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js
+   
+  - body:
+    - div:
+        - div:
+            - h3: "Question?"
+              id: question
+            - ol:
+              - li: "Answer 1"
+              - li: "Answer 2"
+              - li: "Answer 3"
+              - li: "Answer 4"
+              style: "margin-top:22px"
+              id: testBody
+            - div:
+              - button: "Check"
+                onclick: checkTest()
+              - button: "Next"
+                onclick: nextQuestion()
+                id: "#next"
+              id: "buttonBox"
+            - p: 
+              - b: 
+                id: correctAnswers
+
+          id: testBox
+        - input: Upload test.yaml
+          type: file
+          onchange: "loadTest(this)"
+      id: root
+    - script:
+      type: text/javascript
+      src: cramminator.js
