@@ -23,7 +23,7 @@ function nextQuestion() {
     $("#correctAnswers").text("");
     answers.forEach((ans, index) => {
       $("#testBody").append(
-        `<li><input class="ans" type="checkbox" name="${ans}" value="${ans}"><label for="${ans}">${ans}</label></input></li>`
+        `<li onclick="ans${index}.click()"><input class="ans" id="ans${index}" type="checkbox" name="${ans}" value="${ans}"><label for="${ans}">${ans}</label></input></li>`
       );
       console.log(ans);
     });
