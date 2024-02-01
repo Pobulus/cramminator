@@ -16,11 +16,11 @@
                 background: #bbbbff;
                 max-width: 70%;
                 min-width: 50%;
-                max-height: 80%;
-                min-height: 40%;
+                max-height: 85%;
+                min-height: 30%;
                 left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
+                top: 20%;
+                transform: translate(-50%, 0%);
             }
             li {
                 margin: 10px;
@@ -31,8 +31,8 @@
                 background: #fff;
             }
             #buttonBox {
-                position: absolute;
-                right: 50px;
+                position: relative;
+                left: 50px;
             }
             .ans {
                 pointer-events: none;
@@ -43,6 +43,20 @@
     <body>    
         <div id="root">        
             <div id="testBox">            
+                <table>                
+                    <tr>                    
+                        <td>                        
+                            <h2 id="counter">0/0</h2>
+                        </td>                    
+                        <td>                        
+                            <div id="buttonBox">                            
+                                <button onclick="prevQuestion()">Back</button>                            
+                                <button onclick="checkTest()">Check</button>                            
+                                <button onclick="nextQuestion()" id="#next">Next</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>            
                 <h3 id="question">Question?</h3>            
                 <ol style="margin-top:22px" id="testBody">                
                     <li>Answer 1</li>                
@@ -50,16 +64,11 @@
                     <li>Answer 3</li>                
                     <li>Answer 4</li>
                 </ol>            
-                <div id="buttonBox">                
-                    <button onclick="prevQuestion()">Back</button>                
-                    <button onclick="checkTest()">Check</button>                
-                    <button onclick="nextQuestion()" id="#next">Next</button>
-                </div>            
                 <p>                
                     <b id="correctAnswers"></b>
                 </p>
             </div>        
-            <input type="file" onchange="loadTest(this)">Upload test.yaml</input>
+            <input type="file" onchange="loadTest(this)">Upload test.json</input>
         </div>    
         <script type="text/javascript" src="cramminator.js"></script>
     </body>
