@@ -20,10 +20,10 @@ function nextQuestion() {
     question = questions[testIndex];
     console.log(question);
     $("#question").text(question.question);
-    const answers = question.correct
-      .sort(() => Math.random() - 0.5);
-      .concat(question.wrong)
-      .sort(() => Math.random() - 0.5);
+    let answers = question.correct
+      .concat(question.wrong);
+
+      answers = answers.sort(() => Math.random() - 0.5);
     console.log(answers);
     $("#testBody").empty();
     $("#correctAnswers").text("");
