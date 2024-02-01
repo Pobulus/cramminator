@@ -8,7 +8,12 @@ function startTest() {
   $("#next").prop("disabled", false);
   nextQuestion();
 }
-
+function prevQuestion(){
+    if (testIndex > 0){
+        testIndex -= 2;
+        nextQuestion();
+    }
+}
 function nextQuestion() {
   if (testIndex < questions.length) {
     testIndex += 1;

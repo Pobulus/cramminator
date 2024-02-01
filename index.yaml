@@ -43,6 +43,8 @@ html:
               style: "margin-top:22px"
               id: testBody
             - div:
+              - button: "Back"
+                onclick: prevQuestion()
               - button: "Check"
                 onclick: checkTest()
               - button: "Next"
@@ -54,7 +56,7 @@ html:
                 id: correctAnswers
 
           id: testBox
-        - input: Upload test.json
+        - input: Upload test.yaml
           type: file
           onchange: "loadTest(this)"
       id: root
