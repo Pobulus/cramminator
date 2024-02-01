@@ -24,7 +24,14 @@ function nextQuestion() {
     let answers = question.correct
       .concat(question.wrong);
 
-      answers = answers.sort(() => Math.random() - 0.5);
+      answers = answers
+      .sort(() => Math.random() - 0.5)
+      .sort(() => Math.random() - 0.5)
+      .sort(() => Math.random() - 0.5)
+      .sort(() => Math.random() - 0.5)
+      .sort(() => Math.random() - 0.5)
+      .sort(() => Math.random() - 0.5)
+      .sort(() => Math.random() - 0.5);
     console.log(answers);
     $("#testBody").empty();
     $("#correctAnswers").text("");
