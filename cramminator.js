@@ -17,7 +17,7 @@ function prevQuestion(){
 function nextQuestion() {
   if (testIndex < questions.length) {
     testIndex += 1;
-    $("#counter").text(`${testIndex+1}/${questions.length}`);
+    $("#counter").text(`${Math.min(testIndex+1, questions.length)}/${questions.length}`);
     question = questions[testIndex];
     console.log(question);
     $("#question").text(question.question);
