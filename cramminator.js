@@ -2,7 +2,7 @@ var questions = [];
 var testIndex = 0;
 
 function startTest() {
-  questions = questions.sort(() => Math.random() - 0.5);
+  questions = questions.sort(() => Math.random() - 0.5).sort(() => Math.random() - 0.5).sort(() => Math.random() - 0.5).sort(() => Math.random() - 0.5);
   testIndex = -1;
   console.log("shuffle:", questions);
   $("#next").prop("disabled", false);
