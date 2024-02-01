@@ -2,29 +2,34 @@ var questions = [];
 var testIndex = 0;
 
 function startTest() {
-  questions = questions.sort(() => Math.random() - 0.5).sort(() => Math.random() - 0.5).sort(() => Math.random() - 0.5).sort(() => Math.random() - 0.5);
+  questions = questions
+    .sort(() => Math.random() - 0.5)
+    .sort(() => Math.random() - 0.5)
+    .sort(() => Math.random() - 0.5)
+    .sort(() => Math.random() - 0.5);
   testIndex = -1;
   console.log("shuffle:", questions);
   $("#next").prop("disabled", false);
   nextQuestion();
 }
-function prevQuestion(){
-    if (testIndex > 0){
-        testIndex -= 2;
-        nextQuestion();
-    }
+function prevQuestion() {
+  if (testIndex > 0) {
+    testIndex -= 2;
+    nextQuestion();
+  }
 }
 function nextQuestion() {
   if (testIndex < questions.length) {
     testIndex += 1;
-    $("#counter").text(`${Math.min(testIndex+1, questions.length)}/${questions.length}`);
+    $("#counter").text(
+      `${Math.min(testIndex + 1, questions.length)}/${questions.length}`
+    );
     question = questions[testIndex];
     console.log(question);
     $("#question").text(question.question);
-    let answers = question.correct
-      .concat(question.wrong);
+    let answers = question.correct.concat(question.wrong);
 
-      answers = answers
+    answers = answers
       .sort(() => Math.random() - 0.5)
       .sort(() => Math.random() - 0.5)
       .sort(() => Math.random() - 0.5)
