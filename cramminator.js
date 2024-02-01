@@ -21,6 +21,7 @@ function nextQuestion() {
     console.log(question);
     $("#question").text(question.question);
     const answers = question.correct
+      .sort(() => Math.random() - 0.5);
       .concat(question.wrong)
       .sort(() => Math.random() - 0.5);
     console.log(answers);
