@@ -54,7 +54,7 @@ html:
                 id: correctAnswers
 
           id: testBox
-        - input: Upload test.yaml
+        - input: Upload test.json
           type: file
           onchange: "loadTest(this)"
       id: root
