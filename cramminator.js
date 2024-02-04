@@ -1,5 +1,8 @@
 var questions = [];
+var images = [];
 var testIndex = 0;
+var files;
+var folderName;
 
 function startTest() {
   questions = questions
@@ -26,7 +29,23 @@ function nextQuestion() {
     );
     question = questions[testIndex];
     console.log(question);
-    $("#question").text(question.question);
+    $("#question").html(question.question);
+    $('#commentContent').text(question.comment || '');
+    $("#question-image-error").text("");
+    if (question.image) {
+      imageFilename = (folderName && question.image.includes(folderName)) ? question.image : folderName + question.image;
+      let image = images.filter((i) => i.name === imageFilename)?.[0];
+      if (image) {
+        $("#question-image").attr("src", image.dataURI);
+      } else {
+        $("#question-image").attr("src", '');
+        $("#question-image-error").text(
+          `image file: ${imageFilename} was not provided!`
+        );
+      }
+    } else {
+      $("#question-image").attr("src", "");
+    }
     let answers = question.correct.concat(question.wrong);
 
     answers = answers
@@ -42,7 +61,7 @@ function nextQuestion() {
     $("#correctAnswers").text("");
     answers.forEach((ans, index) => {
       $("#testBody").append(
-        `<li onclick="ans${index}.click()"><input class="ans" id="ans${index}" type="checkbox" name="${ans}" value="${ans}"><label for="${ans}">${ans}</label></input></li>`
+        `<tr><td onclick="ans${index}.click()"><input class="ans" id="ans${index}" type="checkbox" name="${ans}" value="${ans}"><label for="${ans}">${ans}</label></input></td></tr>`
       );
       console.log(ans);
     });
@@ -51,16 +70,23 @@ function nextQuestion() {
   }
 }
 
-async function loadTest(inp) {
-  let formData = new FormData();
-  var reader = new FileReader();
-  let file = inp.files[0];
-  reader.addEventListener("load", function () {
-    questions = JSON.parse(reader.result);
+async function loadTest(zip) {
+  let file = zip.filter((x) => x.includes(".yml") || x.includes(".yaml"))?.[0];
+  let imgs = zip.filter((x) => x.includes(".png"));
+  for await (const f of imgs){
+
+    await f.async("base64").then(function (data64) {
+      var dataURI = "data:image/png;base64," + data64;
+      images.push({ name: f.name, dataURI });
+    })
+  }
+ 
+  await file.async("string").then((result) => {
+    questions = jsyaml.load(result);
     console.log("loaded:", questions);
-    startTest();
+
   });
-  reader.readAsText(file);
+  startTest();
 }
 function checkTest() {
   const question = questions[testIndex];
@@ -80,3 +106,21 @@ function checkTest() {
     `Correct Answers are: ${question.correct.join(", ")}`
   );
 }
+f.onchange = function () {
+  var zip = new JSZip();
+
+  zip.loadAsync(this.files[0] /* = file blob */).then(
+    async function (zip) {
+      // process ZIP file content here
+      console.log(zip);
+      files = zip;
+      folderName = files.filter(x => x.match(/\/$/))[0]?.name||'';
+      await loadTest(zip);
+      
+      alert("OK");
+    },
+    function () {
+      alert("Not a valid zip file");
+    }
+  );
+};

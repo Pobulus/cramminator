@@ -1,33 +1,8 @@
 html:
   - head:
-    - style:
-        - '#root':
-          - position: absolute
-          - width: 100vw
-          - height: 100vh
-        - '#testBox':
-          - padding: 1%
-          - position: absolute
-          - background: '#bbbbff'
-          - max-width: 70%
-          - min-width: 50%
-          - max-height: 85%
-          - min-height: 30%
-          - left: 50%
-          - top: 20%
-          - transform: translate(-50%, 0%)
-        - li:
-          - margin: 10px
-          - background: '#ccc'
-          - padding: 3px
-        - "li:hover":
-          - background: '#fff'
-        - "#buttonBox":
-          - position: relative
-          - left: 50px
-       
-        - .ans:
-          - pointer-events: none
+    - link:
+      rel: stylesheet
+      href: style.css
     - script: # jQuery
       src: https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js
    
@@ -43,32 +18,63 @@ html:
                   - div:
                     - button: "Back"
                       onclick: prevQuestion()
+                      class: button-62
                     - button: "Check"
                       onclick: checkTest()
+                      class: button-62
                     - button: "Next"
                       onclick: nextQuestion()
+                      class: button-62
                       id: "#next"
                     id: "buttonBox"
             - h3: "Question?"
               id: question
-            
-            - ol:
-              - li: "Answer 1"
-              - li: "Answer 2"
-              - li: "Answer 3"
-              - li: "Answer 4"
+            - img:
+              id: question-image
+            - b:
+              id: question-image-error
+            - div:
+                - img:
+                  src: https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Infobox_info_icon.svg/160px-Infobox_info_icon.svg.png?20150409153300
+                  style: "max-height: 3vh;width:auto;display: inline-block;transform:translate(0%, 25%);"
+                - p:
+                  id: commentContent
+                  
+              id: commentBox
+            - table:
+              - tr:
+                - td: "Answer 1"
+              - tr:
+                - td: "Answer 2"
+              - tr:
+                - td: "Answer 3"
+              - tr:
+                - td: "Answer 4"
               style: "margin-top:22px"
               id: testBody
-            
+
             - p: 
               - b: 
                 id: correctAnswers
 
           id: testBox
-        - input: Upload test.json
-          type: file
-          onchange: "loadTest(this)"
+        - h3: 'Upload test ZIP:'
+        - p:  
+          - input:
+            type: file
+            id: f
+            class: button-63
+          # onchange: "loadTest(this)"
       id: root
     - script:
       type: text/javascript
+      src: https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js
+    - script:
+      type: text/javascript
+      src: https://cdn.jsdelivr.net/npm/jszip/dist/jszip.min.js
+    - script:
+      type: text/javascript
       src: cramminator.js
+
+
+     
