@@ -29,7 +29,7 @@ function nextQuestion() {
     );
     question = questions[testIndex];
     console.log(question);
-    $("#question").html(question.question);
+    $("#question").html(question.question||"<i>missing question</i>");
     $('#commentContent').text(question.comment || '');
     $("#question-image-error").text("");
     if (question.image) {
@@ -82,13 +82,16 @@ async function loadTest(zip) {
       images.push({ name: f.name, dataURI });
     })
   }
- 
+  if(!file){
+    return "Missing a yaml file!";
+  }
   await file.async("string").then((result) => {
     questions = jsyaml.load(result);
     console.log("loaded:", questions);
 
   });
   startTest();
+  return "Test loaded successfully!"
 }
 function checkTest() {
   const question = questions[testIndex];
@@ -117,9 +120,9 @@ f.onchange = function () {
       console.log(zip);
       files = zip;
       folderName = files.filter(x => x.match(/\/$/))[0]?.name||'';
-      await loadTest(zip);
+      alert(await loadTest(zip));
       
-      alert("Test loaded successflly!");
+      
     },
     function () {
       alert("Not a valid zip file");
