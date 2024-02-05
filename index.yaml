@@ -60,6 +60,7 @@ html:
 
           id: testBox
         - h3: 'Upload test ZIP:'
+          id: uploadPrompt
         - p:  
           - input:
             type: file
