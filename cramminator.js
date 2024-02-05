@@ -170,8 +170,8 @@ function bindPlayer(p){
       //    after the API code downloads.
       function loadPlayerWithSoundtrack() {
         player = new YT.Player('player', {
-          height: '360',
-          width: '640',
+          height: '150',
+          width: '300',
           videoId: $('#soundtrack-input').val().split('v=')?.[1],
           playerVars: {
             'playsinline': 1
