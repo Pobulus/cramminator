@@ -69,11 +69,11 @@ html:
           id: player
         - div:
             - label: Hardcore? <b>No</b>
-              onclick: toggleHardcore()
               id: hardcoreToggle
             - h3:
               id: retries-counter
           id: hardcoreBox
+          onclick: toggleHardcore()
           # onchange: "loadTest(this)"
       id: root
     - script:
