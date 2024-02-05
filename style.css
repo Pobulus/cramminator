@@ -36,11 +36,18 @@ body {
     max-width: 100%;
     width: auto;
 }
+iframe {
+    position: absolute;
+    bottom: 0%;
+    left: 0%;
+    opacity: 20%;
+}
 #root {
     position: absolute;
     width: 98vw;
     height: 98vh;
 }
+
 #testBox {
     padding: 1%;
     position: absolute;
@@ -50,7 +57,7 @@ body {
     min-width: 50%;
     min-height: 30%;
     left: 50%;
-    top: 5%;
+    top: 1%;
     transform: translate(-50%, 0%);
     border-radius: 20px;
 }
@@ -181,7 +188,7 @@ input.button-63::file-selector-button:hover {
   outline: 0;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 600px) {
     @media (orientation: portrait){
         input.button-63::file-selector-button {
             font-size: 24px;

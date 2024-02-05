@@ -3,6 +3,9 @@ var images = [];
 var testIndex = 0;
 var files;
 var folderName;
+var hardcore = false;
+var retries = 0;
+var player = undefined;
 
 function startTest() {
   questions = questions
@@ -91,11 +94,13 @@ async function loadTest(zip) {
 
   });
   startTest();
+  // player?.loadVideoById("GLm_gDsm1ZI");
   return "Test loaded successfully!"
 }
 function checkTest() {
   const question = questions[testIndex];
   console.log(question);
+  let allOK = true;
   $(".ans").each(function (index, value) {
     console.log(this);
     console.log(this.checked);
@@ -105,11 +110,20 @@ function checkTest() {
       $(this).parent().css("background", "green");
     } else {
       $(this).parent().css("background", "red");
+      allOK = false;
     }
   });
   $("#correctAnswers").text(
     `Correct Answers are: ${question.correct?.join(", ")}`
   );
+  if(hardcore&&!allOK){ // one mistake resets the test
+    retries += 1;
+    $("#retries-counter").text(`retries: ${retries}`);
+    testIndex = -1;
+
+    player?.seekTo(0);
+    nextQuestion();
+  }
 }
 f.onchange = function () {
   var zip = new JSZip();
@@ -129,3 +143,56 @@ f.onchange = function () {
     }
   );
 };
+
+function toggleHardcore(){
+  hardcore = !hardcore;
+  $('#hardcoreToggle').html(`Hardcore?<b> ${hardcore?'Yes':'No'}</b>`);
+}
+function bindPlayer(p){
+  player = p
+}
+
+
+      // 2. This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '157',
+          width: '270',
+          videoId: 'GLm_gDsm1ZI',
+          playerVars: {
+            'playsinline': 1
+          },
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      }
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        //event.target.playVideo();
+      }
+
+      // 5. The API calls this function when the player's state changes.
+      //    The function indicates that when playing a video (state=1),
+      //    the player should play for six seconds and then stop.
+      // var done = false;
+      function onPlayerStateChange(event) {
+        // if (event.data == YT.PlayerState.PLAYING && !done) {
+        //   setTimeout(stopVideo, 6000);
+        //   done = true;
+        // }
+      }
+      function stopVideo() {
+        player.stopVideo();
+      }

@@ -64,6 +64,15 @@ html:
             type: file
             id: f
             class: button-63
+        - div:
+          id: player
+        - div:
+            - label: Hardcore? <b>No</b>
+              onclick: toggleHardcore()
+              id: hardcoreToggle
+            - h3:
+              id: retries-counter
+          id: hardcoreBox
           # onchange: "loadTest(this)"
       id: root
     - script:

@@ -52,7 +52,12 @@
             <h3>Upload test ZIP:</h3>        
             <p>            
                 <input type="file" id="f" class="button-63"></input>
-            </p>
+            </p>        
+            <div id="player"></div>        
+            <div id="hardcoreBox">            
+                <label onclick="toggleHardcore()" id="hardcoreToggle">Hardcore? <b>No</b></label>            
+                <h3 id="retries-counter"></h3>
+            </div>
         </div>    
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>    
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jszip/dist/jszip.min.js"></script>    
