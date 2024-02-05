@@ -150,7 +150,6 @@ function toggleHardcore(){
   $('#hardcoreToggle').html(`Hardcore?<b> ${hardcore?'Yes':'No'}</b>`);
   if(hardcore) {
     $("#hardcoreBox").addClass("hardcore");
-    alert("In hardcore mode any mistake resets the test. Good luck >:3")
   } else {
     $("#hardcoreBox").removeClass("hardcore");
   }
