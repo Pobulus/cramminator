@@ -75,6 +75,25 @@ html:
           id: hardcoreBox
           onclick: toggleHardcore()
           # onchange: "loadTest(this)"
+        - div:
+          - table:
+            - tr:
+              - td:
+                - h4: Want a soundtrack?
+            - tr:
+              - td:
+                - input:
+                  type: text
+                  value: https://www.youtube.com/watch?v=GLm_gDsm1ZI
+                  id: soundtrack-input
+            - tr:
+              - td:
+                - button: Load it up
+                  type: button
+                  class: button-52
+                  onclick: loadPlayerWithSoundtrack()
+          id: soundtrackBox
+          style: border-spacing:10px;
       id: root
     - script:
       type: text/javascript

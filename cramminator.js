@@ -169,12 +169,11 @@ function bindPlayer(p){
 
       // 3. This function creates an <iframe> (and YouTube player)
       //    after the API code downloads.
-      var player;
-      function onYouTubeIframeAPIReady() {
+      function loadPlayerWithSoundtrack() {
         player = new YT.Player('player', {
-          height: '157',
-          width: '270',
-          videoId: 'GLm_gDsm1ZI',
+          height: '360',
+          width: '640',
+          videoId: $('#soundtrack-input').val().split('v=')?.[1],
           playerVars: {
             'playsinline': 1
           },

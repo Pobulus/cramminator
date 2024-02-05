@@ -58,6 +58,25 @@
             <div id="hardcoreBox" onclick="toggleHardcore()">            
                 <label id="hardcoreToggle">Hardcore? <b>No</b></label>            
                 <h3 id="retries-counter"></h3>
+            </div>        
+            <div id="soundtrackBox" style="border-spacing:10px;">            
+                <table>                
+                    <tr>                    
+                        <td>                        
+                            <h4>Want a soundtrack?</h4>
+                        </td>
+                    </tr>                
+                    <tr>                    
+                        <td>                        
+                            <input type="text" value="https://www.youtube.com/watch?v=GLm_gDsm1ZI" id="soundtrack-input"></input>
+                        </td>
+                    </tr>                
+                    <tr>                    
+                        <td>                        
+                            <button type="button" class="button-52" onclick="loadPlayerWithSoundtrack()">Load it up</button>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>    
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>    
