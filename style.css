@@ -1,11 +1,30 @@
-@keyframes fadeIn {
+/* @keyframes fadeIn {
     from { filter: none;}
     to { filter: invert();}
 }
 @keyframes fadeOut {
     0%{ filter: invert();}
     100% { filter: none;}
+} */
+
+@keyframes fadeIn {
+    from { filter: none;}
+    to { filter:  drop-shadow(5px 5px 1px #f08000);}
 }
+@keyframes fadeOut {
+    0%{ filter: drop-shadow(5px 5px 1px #f08000)}
+    100% { filter: none;}
+} 
+
+@keyframes clickIn {
+    from { background: #333;color: #ddd;}
+    to {    background: #d0b000; color: black;}
+}
+@keyframes clickOut {
+    0%{     background: #d0b000; color: black; }
+    100% { background: #333;color: #ddd;}
+} 
+
 
 
 body {
@@ -44,14 +63,14 @@ body {
     text-align: center;
     border-radius: 10px;
     animation: fadeOut 0.5s;
+
     filter: none;
 
 }
 
 #testBody td:hover {
-
     animation: fadeIn 0.5s;
-    filter: invert();
+    filter: drop-shadow(0px 5px 2px #f08000);
 }
 #testBody {
     width: 100%;
@@ -69,10 +88,15 @@ body {
     padding: 5px;
     border-radius: 10px;
 }
+#testBody td:not(:has(> input[type="checkbox"]:checked)){
+    animation: clickOut 0.5s;
+}
+
 #testBody td:has(> input[type="checkbox"]:checked){
     background: #d0b000;
     color: black;
     text-decoration: underline;
+    animation: clickIn 0.5s;
   }
   input[type="checkbox"] {
 

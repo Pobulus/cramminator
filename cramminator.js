@@ -46,7 +46,9 @@ function nextQuestion() {
     } else {
       $("#question-image").attr("src", "");
     }
-    let answers = question.correct.concat(question.wrong);
+    let answers = [];
+    answers = answers.concat(question.correct||[])
+    answers = answers.concat(question.wrong||[]);
 
     answers = answers
       .sort(() => Math.random() - 0.5)
@@ -74,7 +76,7 @@ async function loadTest(zip) {
   let file = zip.filter((x) => x.includes(".yml") || x.includes(".yaml"))?.[0];
   let imgs = zip.filter((x) => x.includes(".png"));
   for await (const f of imgs){
-
+  
     await f.async("base64").then(function (data64) {
       var dataURI = "data:image/png;base64," + data64;
       images.push({ name: f.name, dataURI });
@@ -94,16 +96,16 @@ function checkTest() {
   $(".ans").each(function (index, value) {
     console.log(this);
     console.log(this.checked);
-    if (this.checked && question.correct.includes(this.value)) {
+    if (this.checked && question.correct?.includes(this.value)) {
       $(this).parent().css("background", "green");
-    } else if (!this.checked && question.wrong.includes(this.value)) {
+    } else if (!this.checked && question.wrong?.includes(this.value)) {
       $(this).parent().css("background", "green");
     } else {
       $(this).parent().css("background", "red");
     }
   });
   $("#correctAnswers").text(
-    `Correct Answers are: ${question.correct.join(", ")}`
+    `Correct Answers are: ${question.correct?.join(", ")}`
   );
 }
 f.onchange = function () {
@@ -117,7 +119,7 @@ f.onchange = function () {
       folderName = files.filter(x => x.match(/\/$/))[0]?.name||'';
       await loadTest(zip);
       
-      alert("OK");
+      alert("Test loaded successflly!");
     },
     function () {
       alert("Not a valid zip file");
