@@ -71,6 +71,7 @@ function nextQuestion() {
       console.log(ans);
     });
   } else {
+    if (hardcore) { alert("CONGRATULATIONS! You're a real tryhard") }
     $("#next").prop("disabled", true);
   }
 }
