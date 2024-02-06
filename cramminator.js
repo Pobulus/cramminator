@@ -171,7 +171,7 @@ function bindPlayer(p){
       function loadPlayerWithSoundtrack() {
         player = new YT.Player('player', {
           height: '150',
-          width: '300',
+          width: '320',
           videoId: $('#soundtrack-input').val().split('v=')?.[1],
           playerVars: {
             'playsinline': 1
