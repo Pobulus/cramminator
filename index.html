@@ -1,14 +1,19 @@
+loading file index.yaml
 <!DOCTYPE html>
 <!--  Created using YACHT -->
 <!-- Have a very nice day! -->
 
 <html>
     <head>    
-        <link rel="stylesheet" href="style.css"></link>    
+        <link rel="stylesheet" href="style.css" />    
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>    
         <title>Cramminator9000</title>
     </head>
     <body>    
+        <div id="filePrompt" style="display:none">        
+            <h2>Choose file</h2>        
+            <ol id="fileList"></ol>
+        </div>    
         <div id="root">        
             <div id="testBox">            
                 <table>                
@@ -26,10 +31,10 @@
                     </tr>
                 </table>            
                 <h3 id="question">Question?</h3>            
-                <img id="question-image"></img>            
+                <img id="question-image" />            
                 <b id="question-image-error"></b>            
                 <div id="commentBox">                
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Infobox_info_icon.svg/160px-Infobox_info_icon.svg.png?20150409153300" style="max-height: 3vh;width:auto;display: inline-block;transform:translate(0%, 25%);"></img>                
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Infobox_info_icon.svg/160px-Infobox_info_icon.svg.png?20150409153300" style="max-height: 3vh;width:auto;display: inline-block;transform:translate(0%, 25%);" />                
                     <p id="commentContent"></p>
                 </div>            
                 <table style="margin-top:22px" id="testBody">                
@@ -52,7 +57,7 @@
             </div>        
             <h3 id="uploadPrompt">Upload test ZIP:</h3>        
             <p>            
-                <input type="file" id="f" class="button-63"></input>
+                <input type="file" id="f" class="button-63" />
             </p>        
             <div id="player"></div>        
             <div id="hardcoreBox" onclick="toggleHardcore()">            
@@ -68,7 +73,7 @@
                     </tr>                
                     <tr>                    
                         <td>                        
-                            <input type="text" value="https://www.youtube.com/watch?v=GLm_gDsm1ZI" id="soundtrack-input"></input>
+                            <input type="text" value="https://www.youtube.com/watch?v=GLm_gDsm1ZI" id="soundtrack-input" />
                         </td>
                     </tr>                
                     <tr>                    

@@ -76,8 +76,27 @@ function nextQuestion() {
   }
 }
 
+async function chooseFile(list){
+  $('#fileList').empty();
+  list.forEach((x) => {
+    $('#fileList').append(`<li>${x.name.split('/').slice(1).join('/')}</li>`);
+    $('#fileList li').last().click(async function () {
+      await x.async("string").then((result) => {
+        questions = jsyaml.load(result);
+        console.log("loaded:", questions);
+      });
+      startTest();
+      $('#filePrompt').hide();   
+      alert(`${x.name} loaded successfully!`);  
+    })
+  });
+  $('#filePrompt').show();
+}
+
 async function loadTest(zip) {
-  let file = zip.filter((x) => x.includes(".yml") || x.includes(".yaml"))?.[0];
+  let fileList = zip.filter((x) => x.includes(".yml") || x.includes(".yaml"));
+  console.log('files:', fileList);
+  
   let imgs = zip.filter((x) => x.includes(".png"));
   for await (const f of imgs){
   
@@ -86,15 +105,20 @@ async function loadTest(zip) {
       images.push({ name: f.name, dataURI });
     })
   }
-  if(!file){
+  if(fileList.length === 0){
     return "Missing a yaml file!";
-  }
-  await file.async("string").then((result) => {
-    questions = jsyaml.load(result);
-    console.log("loaded:", questions);
+  } 
+  if(fileList.length === 1){
+    await fileList[0].async("string").then((result) => {
+      questions = jsyaml.load(result);
+      console.log("loaded:", questions);
 
-  });
-  startTest();
+    });
+    startTest();
+    alert(`${fileList[0].name} loaded successfully!`);
+  } else {
+    chooseFile(fileList);
+  }
   // player?.loadVideoById("GLm_gDsm1ZI");
   return "Test loaded successfully!"
 }
@@ -135,7 +159,7 @@ f.onchange = function () {
       console.log(zip);
       files = zip;
       folderName = files.filter(x => x.match(/\/$/))[0]?.name||'';
-      alert(await loadTest(zip));
+      console.log(await loadTest(zip));
       
       
     },

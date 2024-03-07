@@ -9,6 +9,13 @@ html:
    
   - body:
     - div:
+        - h2: Choose file
+        - ol: 
+          id: fileList
+      id: filePrompt
+      style: display:none
+
+    - div:
         - div:
             - table:
               - tr: 
