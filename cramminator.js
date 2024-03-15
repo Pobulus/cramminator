@@ -89,7 +89,7 @@ async function chooseFile(list){
       startTest();
       $('#filePrompt').hide();   
       alert(`${x.name} loaded successfully!`);  
-      $('#loadedName').text(fileList[0].name);
+      $('#loadedName').text(x.name);
     })
   });
   $('#filePrompt').show();
