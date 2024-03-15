@@ -13,8 +13,13 @@ html:
       style: display:none
 
     - div:
-        - div:
+        - div:            
             - table:
+              - tr:
+                - td: 
+                    - b: Nothing loaded...
+                      id: loadedName
+                  colspan: 2
               - tr: 
                 - td: 
                   - h2: 0/0
@@ -79,8 +84,7 @@ html:
             type: file
             id: f
             class: button-63
-        - p: Nothing loaded...
-          id: loadedName
+
         - div:
           id: player
         - div:

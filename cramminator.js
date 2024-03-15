@@ -80,7 +80,8 @@ function nextQuestion() {
 async function chooseFile(list){
   $('#fileList').empty();
   list.forEach((x) => {
-    $('#fileList').append(`<li>${x.name.split('/').slice(1).join('/')}</li>`);
+    const filename = x.name.split('/').slice(1).join('/');
+    $('#fileList').append(`<li>${filename}</li>`);
     $('#fileList li').last().click(async function () {
       await x.async("string").then((result) => {
         questions = jsyaml.load(result);
@@ -88,8 +89,8 @@ async function chooseFile(list){
       });
       startTest();
       $('#filePrompt').hide();   
-      alert(`${x.name} loaded successfully!`);  
-      $('#loadedName').text(x.name);
+      alert(`${filename} loaded successfully!`);  
+      $('#loadedName').text(filename);
     })
   });
   $('#filePrompt').show();
@@ -119,7 +120,7 @@ async function loadTest(zip) {
     });
     startTest();
     alert(`${fileList[0].name} loaded successfully!`);
-    $('#loadedName').text(fileList[0].name);
+    $('#loadedName').text(fileList[0].name.split('/').slice(1).join('/'));
   } else {
     chooseFile(fileList);
   }
