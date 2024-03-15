@@ -1,11 +1,8 @@
 html:
   - head:
-    - link:
-      rel: stylesheet
-      href: style.css
-    - script: # jQuery
-      src: https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js
-    - title: Cramminator9000
+    - style: style.css
+    - script: https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js
+    - title: Cramminator9002
    
   - body:
     - div:
@@ -73,6 +70,8 @@ html:
             type: file
             id: f
             class: button-63
+        - p: Nothing loaded...
+          id: loadedName
         - div:
           id: player
         - div:
