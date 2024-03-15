@@ -136,15 +136,15 @@ iframe {
   }
 
 
-  #commentBox{
-  position: relative;
-  max-width: 98%;
-  background-color: lightblue;
-  color: #333;
-  border-radius: 5px;
-  padding: 10px;
+  .infoBox{
+    position: relative;
+    max-width: 98%;
+    background-color: lightblue;
+    color: #333;
+    border-radius: 5px;
+    padding: 10px;
   }
-  #commentBox:has(> p:empty){
+  .infoBox:has(> p:empty){
     display: none;
   }
   #commentContent{

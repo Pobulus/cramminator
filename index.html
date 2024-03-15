@@ -1,4 +1,3 @@
-loading file index.yaml
 <!DOCTYPE html>
 <!--  Created using YACHT -->
 <!-- Have a very nice day! -->
@@ -7,7 +6,7 @@ loading file index.yaml
     <head>    
         <link rel="stylesheet" href="style.css" />    
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>    
-        <title>Cramminator9000</title>
+        <title>Cramminator9002</title>
     </head>
     <body>    
         <div id="filePrompt" style="display:none">        
@@ -33,7 +32,7 @@ loading file index.yaml
                 <h3 id="question">Question?</h3>            
                 <img id="question-image" />            
                 <b id="question-image-error"></b>            
-                <div id="commentBox">                
+                <div class="infoBox" id="commentBox">                
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Infobox_info_icon.svg/160px-Infobox_info_icon.svg.png?20150409153300" style="max-height: 3vh;width:auto;display: inline-block;transform:translate(0%, 25%);" />                
                     <p id="commentContent"></p>
                 </div>            
@@ -53,12 +52,17 @@ loading file index.yaml
                 </table>            
                 <p>                
                     <b id="correctAnswers"></b>
-                </p>
+                </p>            
+                <div id="explanationBox" class="infoBox">                
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Infobox_info_icon.svg/160px-Infobox_info_icon.svg.png?20150409153300" style="max-height: 3vh;width:auto;display: inline-block;transform:translate(0%, 25%);" />                
+                    <p id="explanationContent"></p>
+                </div>
             </div>        
             <h3 id="uploadPrompt">Upload test ZIP:</h3>        
             <p>            
                 <input type="file" id="f" class="button-63" />
             </p>        
+            <p id="loadedName">Nothing loaded...</p>        
             <div id="player"></div>        
             <div id="hardcoreBox" onclick="toggleHardcore()">            
                 <label id="hardcoreToggle">Hardcore? <b>No</b></label>            

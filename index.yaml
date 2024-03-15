@@ -44,7 +44,7 @@ html:
                   style: "max-height: 3vh;width:auto;display: inline-block;transform:translate(0%, 25%);"
                 - p:
                   id: commentContent
-                  
+              class: infoBox
               id: commentBox
             - table:
               - tr:
@@ -61,6 +61,15 @@ html:
             - p: 
               - b: 
                 id: correctAnswers
+            - div:
+                - img:
+                  src: https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Infobox_info_icon.svg/160px-Infobox_info_icon.svg.png?20150409153300
+                  style: "max-height: 3vh;width:auto;display: inline-block;transform:translate(0%, 25%);"
+                - p:
+                  id: explanationContent
+                  
+              id: explanationBox
+              class: infoBox
 
           id: testBox
         - h3: 'Upload test ZIP:'

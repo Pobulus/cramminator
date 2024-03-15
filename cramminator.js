@@ -64,6 +64,7 @@ function nextQuestion() {
     console.log(answers);
     $("#testBody").empty();
     $("#correctAnswers").text("");
+    $('#explanationContent').text('');
     answers.forEach((ans, index) => {
       $("#testBody").append(
         `<tr><td onclick="ans${index}.click()"><input class="ans" id="ans${index}" type="checkbox" name="${ans}" value="${ans}"><label for="${ans}">${ans}</label></input></td></tr>`
@@ -88,6 +89,7 @@ async function chooseFile(list){
       startTest();
       $('#filePrompt').hide();   
       alert(`${x.name} loaded successfully!`);  
+      $('#loadedName').text(fileList[0].name);
     })
   });
   $('#filePrompt').show();
@@ -106,6 +108,7 @@ async function loadTest(zip) {
     })
   }
   if(fileList.length === 0){
+    alert("Missing a yaml file!");
     return "Missing a yaml file!";
   } 
   if(fileList.length === 1){
@@ -116,6 +119,7 @@ async function loadTest(zip) {
     });
     startTest();
     alert(`${fileList[0].name} loaded successfully!`);
+    $('#loadedName').text(fileList[0].name);
   } else {
     chooseFile(fileList);
   }
@@ -141,6 +145,7 @@ function checkTest() {
   $("#correctAnswers").text(
     `Correct Answers are: ${question.correct?.join(", ")}`
   );
+  $('#explanationContent').text(question.explanation || '');
   if(hardcore&&!allOK){ // one mistake resets the test
     retries += 1;
     $("#retries-counter").text(`retries: ${retries}`);
