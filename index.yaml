@@ -2,7 +2,7 @@ html:
   - head:
     - style: style.css
     - script: https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js
-    - title: Cramminator9002
+    - title: Cramminator9003
    
   - body:
     - div:

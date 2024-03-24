@@ -6,7 +6,7 @@
     <head>    
         <link rel="stylesheet" href="style.css" />    
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>    
-        <title>Cramminator9002</title>
+        <title>Cramminator9003</title>
     </head>
     <body>    
         <div id="filePrompt" style="display:none">        
@@ -41,8 +41,31 @@
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Infobox_info_icon.svg/160px-Infobox_info_icon.svg.png?20150409153300" style="max-height: 3vh;width:auto;display: inline-block;transform:translate(0%, 25%);" />                
                     <p id="commentContent"></p>
                 </div>            
-                <table style="margin-top:22px" id="testBody">                
-                    <tr>                    
+                <table style="margin-top:22px" id="testBody">    
+                    <script>
+                        function craft(id, template, objects) {
+                            document.getElementById(id).outerHTML = objects.map(o => {
+                                out = template;
+                                Object.keys(o).forEach(k => {
+                                    out = out.replaceAll(`\$${k}`, o[k]);
+                                });
+                                return out;
+                            }).join('\n');
+                        }
+                    </script>
+                    <script id="script1">
+                       craft('script1', '<tr><td id="$id">$name</td></tr>', [
+                                {
+                                    name: "answer 1",
+                                    id: 1234
+                                },
+                                {
+                                    name: "answer 2",
+                                    id: 123
+                                },
+                            ])
+                    </script>            
+                    <!-- <tr>                    
                         <td>Answer 1</td>
                     </tr>                
                     <tr>                    
@@ -53,7 +76,7 @@
                     </tr>                
                     <tr>                    
                         <td>Answer 4</td>
-                    </tr>
+                    </tr> -->
                 </table>            
                 <p>                
                     <b id="correctAnswers"></b>

@@ -32,7 +32,7 @@ function nextQuestion() {
     );
     question = questions[testIndex];
     console.log(question);
-    $("#question").html(question.question||"<i>missing question</i>");
+    $("#question").html(question.question?.replaceAll(/\n/g, '<br/>')||"<i>missing question</i>");
     $('#commentContent').text(question.comment || '');
     $("#question-image-error").text("");
     if (question.image) {
@@ -67,7 +67,13 @@ function nextQuestion() {
     $('#explanationContent').text('');
     answers.forEach((ans, index) => {
       $("#testBody").append(
-        `<tr><td onclick="ans${index}.click()"><input class="ans" id="ans${index}" type="checkbox" name="${ans}" value="${ans}"><label for="${ans}">${ans}</label></input></td></tr>`
+        `<tr>
+          <td onclick="ans${index}.click()" ${ans.includes('\n') ? 'style="text-align:left"':''}>
+            <input class="ans" id="ans${index}" type="checkbox" name="${ans}" value="${ans}">
+              <label for="${ans}">${ans.replaceAll(/\n/g, '<br/>')}</label>
+            </input>
+          </td>
+        </tr>`
       );
       console.log(ans);
     });
