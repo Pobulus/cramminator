@@ -117,6 +117,7 @@ async function loadTest(zip) {
       images.push({ name: f.name, dataURI });
     })
   }
+  localStorage.setItem("savedImages", JSON.stringify(images));
   if(fileList.length === 0){
     alert("Missing a yaml file!");
     return "Missing a yaml file!";
@@ -170,6 +171,7 @@ f.onchange = function () {
       console.log(zip);
       files = zip;
       folderName = files.filter(x => x.match(/\/$/))[0]?.name||'';
+      localStorage.setItem("savedFolderName", folderName);
       console.log(await loadTest(zip));
       
       
@@ -238,6 +240,8 @@ function bindPlayer(p){
       }
 function loadSavedQuestions() {
   questions = JSON.parse(localStorage.getItem("savedQuestions")); 
+  images = JSON.parse(localStorage.getItem("savedImages")) || [];
+  folderName = localStorage.getItem("savedFolderName");
   console.log('loaded saved file: ', questions);
   if(questions) {
     startTest();
