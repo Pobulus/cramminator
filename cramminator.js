@@ -83,16 +83,19 @@ function nextQuestion() {
   }
 }
 
+
+function loadQuestionsFile(text) {
+  questions = jsyaml.load(text);
+  localStorage.setItem("savedQuestions", JSON.stringify(questions));
+  console.log("loaded:", questions);
+}
 async function chooseFile(list){
   $('#fileList').empty();
   list.forEach((x) => {
     const filename = x.name.split('/').slice(1).join('/');
     $('#fileList').append(`<li>${filename}</li>`);
     $('#fileList li').last().click(async function () {
-      await x.async("string").then((result) => {
-        questions = jsyaml.load(result);
-        console.log("loaded:", questions);
-      });
+      await x.async("string").then((result) => loadQuestionsFile(result));
       startTest();
       $('#filePrompt').hide();   
       alert(`${filename} loaded successfully!`);  
@@ -119,11 +122,7 @@ async function loadTest(zip) {
     return "Missing a yaml file!";
   } 
   if(fileList.length === 1){
-    await fileList[0].async("string").then((result) => {
-      questions = jsyaml.load(result);
-      console.log("loaded:", questions);
-
-    });
+    await fileList[0].async("string").then((result) => loadQuestionsFile(result));
     startTest();
     alert(`${fileList[0].name} loaded successfully!`);
     $('#loadedName').text(fileList[0].name.split('/').slice(1).join('/'));
@@ -237,3 +236,12 @@ function bindPlayer(p){
       function stopVideo() {
         player.stopVideo();
       }
+function loadSavedQuestions() {
+  questions = JSON.parse(localStorage.getItem("savedQuestions")); 
+  console.log('loaded saved file: ', questions);
+  if(questions) {
+    startTest();
+    $('#loadedName').text('saved file')
+  }
+}
+window.onload = loadSavedQuestions;
