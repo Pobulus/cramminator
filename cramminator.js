@@ -46,8 +46,8 @@ function nextQuestion() {
         $("#question").html(
           $("#question")
             .html()
-            .replace(
-              RegExp(`\\$${entry[0]}`),
+            .replaceAll(
+              RegExp(`\\$${entry[0]}`, 'g'),
               `<select name="${entry[0]}"><option style="display:none">${options}</select>`
             )
         )
