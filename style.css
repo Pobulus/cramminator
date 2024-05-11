@@ -6,7 +6,12 @@
     0%{ filter: invert();}
     100% { filter: none;}
 } */
-
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  /* text-indent: 1px;
+  text-overflow: ''; */
+}
 @keyframes fadeIn {
     from { filter: none;}
     to { filter:  drop-shadow(5px 5px 1px #f08000);}
