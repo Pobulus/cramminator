@@ -91,7 +91,7 @@ function nextQuestion() {
     answers.forEach((ans, index) => {
       $("#testBody").append(
         `<tr>
-          <td onclick="ans${index}.click()" ${
+          <td class="ans" onclick="ans${index}.click()" ${
           ans.includes("\n") ? 'style="text-align:left"' : ""
         }>
             <input class="ans" id="ans${index}" type="checkbox" name="${ans}" value="${ans}">
@@ -290,6 +290,15 @@ function initiateCramminator() {
     else if(event.key == ' ') {
       if(questions) checkTest();
     }
+    else {
+      const number = Number(event.key);
+      if(number){
+        const answers  = $('td.ans');
+        const index = number!==0 ? number-1 : 10;
+        answers?.[`${index}`]?.click();
+      }
+    }
 });
 }
+
 window.onload = initiateCramminator;
