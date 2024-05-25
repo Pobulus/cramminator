@@ -6,6 +6,7 @@ var folderName;
 var hardcore = false;
 var retries = 0;
 var player = undefined;
+var answersAppearingDelay = 5;
 
 function startTest() {
   questions = questions
@@ -89,19 +90,22 @@ function nextQuestion() {
     $("#correctAnswers").text("");
     $("#explanationContent").text("");
     answers.forEach((ans, index) => {
-      $("#testBody").append(
-        `<tr>
-          <td class="ans" onclick="ans${index}.click()" ${
-          ans.includes("\n") ? 'style="text-align:left"' : ""
-        }>
-            <input class="ans" id="ans${index}" type="checkbox" name="${ans}" value="${ans}">
-              <label for="${ans}">${ans.replaceAll(/\n/g, "<br/>")}</label>
-            </input>
-          </td>
-        </tr>`
-      );
-      console.log(ans);
-    });
+      setTimeout(() => {
+        $("#testBody").append(
+          `<tr>
+            <td class="ans" onclick="ans${index}.click()" ${
+            ans.includes("\n") ? 'style="text-align:left"' : ""
+          }>
+              <input class="ans" id="ans${index}" type="checkbox" name="${ans}" value="${ans}">
+                <label for="${ans}">${ans.replaceAll(/\n/g, "<br/>")}</label>
+              </input>
+            </td>
+          </tr>`
+        );
+  
+        console.log(ans);
+      }, index*answersAppearingDelay)}
+    );
   } else {
     if (hardcore) {
       alert("CONGRATULATIONS! You're a real tryhard");
