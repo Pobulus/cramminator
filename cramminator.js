@@ -269,7 +269,8 @@ function onPlayerStateChange(event) {}
 function stopVideo() {
   player.stopVideo();
 }
-function loadSavedQuestions() {
+function initiateCramminator() {
+  // load saved questions
   questions = JSON.parse(localStorage.getItem("savedQuestions"));
   images = JSON.parse(localStorage.getItem("savedImages")) || [];
   folderName = localStorage.getItem("savedFolderName");
@@ -278,5 +279,17 @@ function loadSavedQuestions() {
     startTest();
     $("#loadedName").text("saved file");
   }
+  // add keyboard support
+  document.addEventListener('keydown', function(event) {
+    if(event.key == 'ArrowLeft') {
+      if(questions) prevQuestion();
+    }
+    else if(event.key == 'ArrowRight') {
+      if(questions) nextQuestion();
+    }
+    else if(event.key == ' ') {
+      if(questions) checkTest();
+    }
+});
 }
-window.onload = loadSavedQuestions;
+window.onload = initiateCramminator;
