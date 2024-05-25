@@ -179,7 +179,7 @@ function checkTest() {
   const question = questions[testIndex];
   console.log(question);
   let allOK = true;
-  $(".ans").each(function (index, value) {
+  $("input.ans").each(function (index, value) {
     console.log(this);
     console.log(this.checked);
     if (this.checked && question.correct?.includes(this.value)) {
