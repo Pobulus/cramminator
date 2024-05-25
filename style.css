@@ -96,7 +96,7 @@ iframe {
     position: relative;
     left: 50px;
 }
-.ans {
+input.ans {
     pointer-events: none;
 }
 #question-image-error:not(:empty) {
