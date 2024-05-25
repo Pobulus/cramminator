@@ -296,9 +296,11 @@ function initiateCramminator() {
     }
     else {
       const number = Number(event.key);
-      if(number){
+      if(number != NaN){
         const answers  = $('td.ans');
-        const index = number!==0 ? number-1 : 10;
+        let index = number!==0 ? number-1 : 9;
+        index += event.getModifierState('CapsLock')*10;
+        console.log(index);
         answers?.[`${index}`]?.click();
       }
     }
