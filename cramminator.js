@@ -96,14 +96,15 @@ function nextQuestion() {
             <td class="ans" onclick="ans${index}.click()" ${
             ans.includes("\n") ? 'style="text-align:left"' : ""
           }>
-              <input class="ans" id="ans${index}" type="checkbox" name="${ans}" value="${ans}">
-                <label for="${ans}">${ans.replaceAll(/\n/g, "<br/>")}</label>
+              <input class="ans" id="ans${index}" type="checkbox" name="${ans.replaceAll(/"/g, '&quot;')}" value="${ans.replaceAll(/"/g, '&quot;')}">
+                <label for="${ans.replaceAll(/"/g, '&quot;')}">${ans.replaceAll(/\n/g, "<br/>")}</label>
               </input>
             </td>
           </tr>`
         );
   
         console.log(ans);
+        console.log(ans.replaceAll(/"/g, '&quot;'));
       }, index*answersAppearingDelay)}
     );
   } else {
@@ -183,19 +184,19 @@ function checkTest() {
     console.log(this);
     console.log(this.checked);
     if (this.checked && question.correct?.includes(this.value)) {
-      $(this).parent().css("background", "green");
+      $(this).parent().css("background", "var(--correct-color)");
     } else if (!this.checked && question.wrong?.includes(this.value)) {
-      $(this).parent().css("background", "green");
+      $(this).parent().css("background", "var(--correct-color)");
     } else {
-      $(this).parent().css("background", "red");
+      $(this).parent().css("background", "var(--wrong-color)");
       allOK = false;
     }
   });
   $("select").each(function (i) {
     if ($(this)[0].value === $(this)[0].name) {
-      $(this).css("background", "green");
+      $(this).css("background", "var(--correct-color)");
     } else {
-      $(this).css("background", "red");
+      $(this).css("background", "var(--wrong-color)");
       allOK = false;
     }
   });

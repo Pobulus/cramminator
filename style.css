@@ -6,6 +6,13 @@
     0%{ filter: invert();}
     100% { filter: none;}
 } */
+:root {
+  --correct-color:rgb(26, 143, 26);
+  --wrong-color: rgb(75, 32, 32);
+  --selected-color: #d0b000;
+}
+
+
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -23,10 +30,10 @@ select {
 
 @keyframes clickIn {
     from { background: #333;color: #ddd;}
-    to {    background: #d0b000; color: black;}
+    to {    background: var(--selected-color); color: black;}
 }
 @keyframes clickOut {
-    0%{     background: #d0b000; color: black; }
+    0%{     background: var(--selected-color); color: black; }
     100% { background: #333;color: #ddd;}
 } 
 
@@ -100,7 +107,7 @@ input.ans {
     pointer-events: none;
 }
 #question-image-error:not(:empty) {
-    background:red;
+    background:var(--wrong-color);
     padding: 5px;
     border-radius: 10px;
 }
@@ -133,8 +140,8 @@ input.ans {
 }
 
 #testBody td:has(> input[type="checkbox"]:checked){
-    background: #d0b000;
-    color: black;
+    background: var(--selected-color);
+    color: cyan;
     text-decoration: underline;
     /* animation: clickIn 0.5s; */
     
