@@ -314,6 +314,10 @@ function initiateCramminator() {
   });
 }
 function reviewFailed() {
+  if(!failedQuestions.length) {
+    alert("You haven't failed a single question yet");
+    return;
+  }
   questions = failedQuestions;
   failedQuestions = [];
   startTest();
