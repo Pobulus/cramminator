@@ -11,7 +11,12 @@
   --wrong-color: rgb(75, 32, 32);
   --selected-color: #d0b000;
 }
-
+#extraControls{
+  display: flex;
+  flex-direction: column;
+  max-width: 15vw;
+  align-items: stretch;
+}
 
 select {
   -webkit-appearance: none;
@@ -167,6 +172,115 @@ input.ans {
   #commentContent{
     display: inline-block
   }
+
+.flex-element {
+  flex: 25%;
+  width: 100%;
+  flex-grow: 1;
+}
+
+/* CSS */
+.button-77 {
+  align-items: center;
+  appearance: none;
+  background-clip: padding-box;
+  background-color: initial;
+  background-image: none;
+  border-style: none;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  flex-direction: row;
+  flex-shrink: 0;
+  font-family: Eina01,sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  justify-content: center;
+  line-height: 24px;
+  margin: 0;
+  min-height: 64px;
+  outline: none;
+  overflow: visible;
+  padding: 19px 26px;
+  pointer-events: auto;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  width: auto;
+  word-break: keep-all;
+  z-index: 0;
+}
+
+@media (min-width: 768px) {
+  .button-77 {
+    padding: 19px 32px;
+  }
+}
+
+.button-77:before,
+.button-77:after {
+  border-radius: 80px;
+}
+
+.button-77:before {
+  background-color: rgba(249, 58, 19, .32);
+  content: "";
+  display: block;
+  height: 100%;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -2;
+}
+
+.button-77:after {
+  background-color: initial;
+  background-image: linear-gradient(92.83deg, #ff7426 0, #f93a13 100%);
+  bottom: 4px;
+  content: "";
+  display: block;
+  left: 4px;
+  overflow: hidden;
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  transition: all 100ms ease-out;
+  z-index: -1;
+}
+
+.button-77:hover:not(:disabled):after {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  transition-timing-function: ease-in;
+}
+
+.button-77:active:not(:disabled) {
+  color: #ccc;
+}
+
+.button-77:active:not(:disabled):after {
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2)), linear-gradient(92.83deg, #ff7426 0, #f93a13 100%);
+  bottom: 4px;
+  left: 4px;
+  right: 4px;
+  top: 4px;
+}
+
+.button-77:disabled {
+  cursor: default;
+  opacity: .24;
+}
+  
   /* CSS */
   .button-62 {
     background: linear-gradient(to bottom right, #EF4765, #FF9A5A);
@@ -232,10 +346,17 @@ input.ans {
     box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(223, 67, 5, 0.5);
   }
 
+  #soundtrackBox {
+    width: 100%;
+  }
 
+#f {
+  width: 100%;
+}
 /* CSS */
 input.button-63::file-selector-button {
   align-items: center;
+  position: relative;
   background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
   border: 0;
   border-radius: 8px;
@@ -246,17 +367,18 @@ input.button-63::file-selector-button {
   font-family: Phantomsans, sans-serif;
   font-size: 12px;
   justify-content: center;
-  line-height: 0.25em;
-  max-width: 100%;
-  min-width: 140px;
-  padding: 19px 24px;
+  line-height: 1em;
+  width: 100%;
+  /* min-width: 140px; */
+  padding: 15px 15px;
   text-decoration: none;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
   white-space: nowrap;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  
 }
 
 input.button-63::file-selector-button:active,
@@ -267,7 +389,7 @@ input.button-63::file-selector-button:hover {
     border-radius: 10px;
     padding: 5px;
     background: rgb(43,43,46);
-    max-width: 10vw;
+    
     text-align: center;
     background: linear-gradient(54deg, rgba(43,43,46,1) 0%, rgba(109,115,125,1) 100%);
 }
@@ -280,37 +402,66 @@ input.button-63::file-selector-button:hover {
 
 @media (orientation: portrait){
         input.button-63::file-selector-button {
-            font-size: 24px;
-            min-width: 196px;
+            font-size: 2.5em;
+            
+            min-height: 5em;
+        }
+
+        #extraControls {
+          flex-direction: row;
+          flex: 50%;
+          
+          max-width: 100%;
+          
+        }
+        #hardcoreBox,
+        #extraControls button {
+          font-size: 2.5em;
+          min-height: 5em;
+          
+        }
+        #root{
+          /* display: flex; */
+          flex-direction: column;
         }
         #testBox {
+            flex: 50%;
             padding: 1%;
-            position: absolute;
+            position: static;
+            
             background: #bbbbff;
             background: linear-gradient(54deg, rgba(68,63,156,1) 0%, rgba(60,131,247,1) 100%);
             width: 98%;
+            top:auto;
             max-width: 98%;
             min-height: 30%;
-            max-height: 90%;
+            max-height: 100%;
             left: 0%;
-            top: 25%;
+            
             transform: translate(0%, 0%);
             border-radius: 20px;
-            font-size: 1.5em;
+            font-size: 2.5em;
         }
         #buttonBox
         {
-            width: 50vw;
+            width: 70vw;
+            
         }
-        .button-62{
-            font-size: 14px;
-            padding-left: 5%;
-            padding-right: 5%;
+
+        .button-52{
+          min-height: 5em;
+          
+        }
+
+        .button-77{
+            font-size: 30px;
+            padding: 7%;
+
         }
     }
 
 #review {
-  max-width: 200px;
+  /* max-width: 200px; */
   margin-right: 5px;
   margin-bottom: 10px;
 }

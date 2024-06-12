@@ -18,17 +18,25 @@ function startTest() {
     .sort(() => Math.random() - 0.5);
   testIndex = -1;
   console.log("shuffle:", questions);
-  $("#next").prop("disabled", false);
+  
   nextQuestion();
+  
 }
 function prevQuestion() {
+  
   $('.celebration').hide();
   if (testIndex > 0) {
     testIndex -= 2; // okay this has to be fixed some day
     nextQuestion();
+  
   }
 }
 function nextQuestion() {
+  $("#prev").prop("disabled", false);
+  if(testIndex === -1) $("#prev").prop("disabled", true);
+  $("#next").prop("disabled", false);
+  if(testIndex === questions.length) $("#next").prop("disabled", true);
+  $('#next').blur(); // unfocus the next button to fix issues with spacebar
   if (testIndex < questions.length - 1) {
     testIndex += 1;
     $("#counter").text(

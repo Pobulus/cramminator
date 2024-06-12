@@ -3,128 +3,171 @@
 <!-- Have a very nice day! -->
 
 <html>
-    <head>    
-        <link rel="stylesheet" href="style.css" />    
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>    
-        <title>Cramminator9009</title>
-    </head>
-    <body>    
-        <div id="filePrompt" style="display:none">        
-            <h2>Choose file</h2>        
-            <ol id="fileList"></ol>
-        </div>    
-        <div id="root">        
-            <div id="testBox">            
-                <table>                
-                    <tr>                    
-                        <td colspan="2">                        
-                            <b id="loadedName">Nothing loaded...</b>
-                        </td>
-                    </tr>                
-                    <tr>                    
-                        <td>                        
-                            <h2 id="counter">0/0</h2>
-                        </td>                    
-                        <td>                        
-                            <div id="buttonBox">                            
-                                <button onclick="prevQuestion()" class="button-62">Back</button>                            
-                                <button onclick="checkTest()" class="button-62">Check</button>                            
-                                <button onclick="nextQuestion()" class="button-62" id="#next">Next</button>
-                            </div>
-                        </td>
-                    </tr>
-                </table>            
-                <h3 id="question">Question?</h3>            
-                <img id="question-image" />            
-                <b id="question-image-error"></b>            
-                <div class="infoBox" id="commentBox">                
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Infobox_info_icon.svg/160px-Infobox_info_icon.svg.png?20150409153300" style="max-height: 3vh;width:auto;display: inline-block;transform:translate(0%, 25%);" />                
-                    <p id="commentContent"></p>
-                </div>            
-                <table style="margin-top:22px" id="testBody">    
-                    <script>
-                        function craft(id, template, objects) {
-                            document.getElementById(id).outerHTML = objects.map(o => {
-                                out = template;
-                                Object.keys(o).forEach(k => {
-                                    out = out.replaceAll(`\$${k}`, o[k]);
-                                });
-                                return out;
-                            }).join('\n');
-                        }
-                    </script>
-                    <script id="script1">
-                       craft('script1', '<tr><td id="$id">$name</td></tr>', [
-                                {
-                                    name: "answer 1",
-                                    id: 1234
-                                },
-                                {
-                                    name: "answer 2",
-                                    id: 123
-                                },
-                            ])
-                    </script>            
-                    <!-- <tr>                    
-                        <td>Answer 1</td>
-                    </tr>                
-                    <tr>                    
-                        <td>Answer 2</td>
-                    </tr>                
-                    <tr>                    
-                        <td>Answer 3</td>
-                    </tr>                
-                    <tr>                    
-                        <td>Answer 4</td>
-                    </tr> -->
-                </table>            
-                <p>                
-                    <b id="correctAnswers"></b>
-                </p>            
-                <div id="explanationBox" class="infoBox">                
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Infobox_info_icon.svg/160px-Infobox_info_icon.svg.png?20150409153300" style="max-height: 3vh;width:auto;display: inline-block;transform:translate(0%, 25%);" />                
-                    <p id="explanationContent"></p>
-                </div>
-            </div>        
-            <h3 id="uploadPrompt">Upload test ZIP:</h3>        
-            <p>            
-                <input type="file" id="f" class="button-63" />
-            </p>        
-            
-            <button id="review" type="button" class="button-52" onclick="reviewFailed()">Review Failed </button>
-            
-            <div id="player"></div>        
-            <div id="hardcoreBox" onclick="toggleHardcore()">            
-                <label id="hardcoreToggle">Hardcore? <b>No</b></label>            
-                <h3 id="retries-counter"></h3>
-            </div>        
-            <div id="soundtrackBox" style="border-spacing:10px;">            
-                <table>                
-                    <tr>                    
-                        <td>                        
-                            <h4>Want a soundtrack?</h4>
-                        </td>
-                    </tr>                
-                    <tr>                    
-                        <td>                        
-                            <input type="text" value="https://www.youtube.com/watch?v=GLm_gDsm1ZI" id="soundtrack-input" />
-                        </td>
-                    </tr>                
-                    <tr>                    
-                        <td>                        
-                            <button type="button" class="button-52" onclick="loadPlayerWithSoundtrack()">Load it up</button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>    
-        <div class="celebration" style="display: none;">
-            <div class="firework"></div>
-            <div class="firework"></div>
-            <div class="firework"></div>
+  <head>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Cramminator9010</title>
+  </head>
+  <body>
+    <div id="filePrompt" style="display: none">
+      <h2>Choose file</h2>
+      <ol id="fileList"></ol>
+    </div>
+    <div id="root">
+      <div id="extraControls">
+        <div class="flex-element">
+          <h3 id="uploadPrompt">Upload test ZIP:</h3>
+          
+            <input type="file" id="f" class="button-63" />
+          
         </div>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>    
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jszip/dist/jszip.min.js"></script>    
-        <script type="text/javascript" src="cramminator.js"></script>
-    </body>
+        <div class="flex-element">
+          <button
+            id="review"
+            type="button"
+            class="button-52"
+            onclick="reviewFailed()"
+          >
+            Review Failed
+          </button>
+        </div>
+
+        <div class="flex-element">
+          <div id="hardcoreBox" onclick="toggleHardcore()">
+            <label id="hardcoreToggle">Hardcore? <b>No</b></label>
+            <h3 id="retries-counter"></h3>
+          </div>
+        </div>
+
+        <div class="flex-element">
+          <div id="soundtrackBox" style="border-spacing: 10px">
+            <h4>Want a soundtrack?</h4>
+            <input
+              type="text"
+              value="https://www.youtube.com/watch?v=GLm_gDsm1ZI"
+              id="soundtrack-input"
+            />
+            <button
+              type="button"
+              class="button-52"
+              onclick="loadPlayerWithSoundtrack()"
+            >
+              Load it up
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="testBox">
+        <table>
+          <tr>
+            <td colspan="2">
+              <b id="loadedName">Nothing loaded...</b>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h2 id="counter">0/0</h2>
+            </td>
+            <td>
+              <div id="buttonBox">
+                <button
+                  onclick="prevQuestion()"
+                  class="button-77"
+                  id="prev"
+                  role="button"
+                >
+                  Back
+                </button>
+                <button onclick="checkTest()" class="button-77" role="button">
+                  Check
+                </button>
+                <button
+                  onclick="nextQuestion()"
+                  class="button-77"
+                  id="next"
+                  role="button"
+                >
+                  Next
+                </button>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <h3 id="question">Question?</h3>
+        <img id="question-image" />
+        <b id="question-image-error"></b>
+        <div class="infoBox" id="commentBox">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Infobox_info_icon.svg/160px-Infobox_info_icon.svg.png?20150409153300"
+            style="
+              max-height: 3vh;
+              width: auto;
+              display: inline-block;
+              transform: translate(0%, 25%);
+            "
+          />
+          <p id="commentContent"></p>
+        </div>
+        <table style="margin-top: 22px" id="testBody">
+          <script>
+            function craft(id, template, objects) {
+              document.getElementById(id).outerHTML = objects
+                .map((o) => {
+                  out = template;
+                  Object.keys(o).forEach((k) => {
+                    out = out.replaceAll(`\$${k}`, o[k]);
+                  });
+                  return out;
+                })
+                .join("\n");
+            }
+          </script>
+          <script id="script1">
+            craft("script1", '<tr><td id="$id">$name</td></tr>', [
+              {
+                name: "answer 1",
+                id: 1234,
+              },
+              {
+                name: "answer 2",
+                id: 123,
+              },
+            ]);
+          </script>
+        </table>
+        <p>
+          <b id="correctAnswers"></b>
+        </p>
+        <div id="explanationBox" class="infoBox">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Infobox_info_icon.svg/160px-Infobox_info_icon.svg.png?20150409153300"
+            style="
+              max-height: 3vh;
+              width: auto;
+              display: inline-block;
+              transform: translate(0%, 25%);
+            "
+          />
+          <p id="explanationContent"></p>
+        </div>
+      </div>
+    </div>
+    <div id="player"></div>
+
+    <div class="celebration" style="display: none">
+      <div class="firework"></div>
+      <div class="firework"></div>
+      <div class="firework"></div>
+    </div>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/jszip/dist/jszip.min.js"
+    ></script>
+    <script type="text/javascript" src="cramminator.js"></script>
+  </body>
 </html>
