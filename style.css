@@ -309,6 +309,13 @@ input.button-63::file-selector-button:hover {
         }
     }
 
+#review {
+  max-width: 200px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+
+#review
 #uploadPrompt,
 #counter,
 #hardcoreBox,
