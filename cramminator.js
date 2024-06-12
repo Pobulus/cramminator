@@ -9,6 +9,7 @@ var player = undefined;
 var answersAppearingDelay = 5;
 
 function startTest() {
+  $('.celebration').hide();
   questions = questions
     .sort(() => Math.random() - 0.5)
     .sort(() => Math.random() - 0.5)
@@ -20,6 +21,7 @@ function startTest() {
   nextQuestion();
 }
 function prevQuestion() {
+  $('.celebration').hide();
   if (testIndex > 0) {
     testIndex -= 2; // okay this has to be fixed some day
     nextQuestion();
@@ -111,6 +113,7 @@ function nextQuestion() {
     if (hardcore) {
       alert("CONGRATULATIONS! You're a real tryhard");
     }
+    $('.celebration').show();
     $("#next").prop("disabled", true);
   }
 }
