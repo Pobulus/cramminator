@@ -1,5 +1,5 @@
 var questions = [];
-var failedQuestions =[];
+var failedQuestions = [];
 var images = [];
 var testIndex = 0;
 var files;
@@ -9,8 +9,23 @@ var retries = 0;
 var player = undefined;
 var answersAppearingDelay = 5;
 
+function renderKaTeX(){
+  renderMathInElement(document.body, {
+    // customised options
+    // • auto-render specific keys, e.g.:
+    delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\(', right: '\\)', display: false},
+        {left: '\\[', right: '\\]', display: true}
+    ],
+    // • rendering keys, e.g.:
+    throwOnError : false
+  });
+}
+
 function startTest() {
-  $('.celebration').hide();
+  $(".celebration").hide();
   questions = questions
     .sort(() => Math.random() - 0.5)
     .sort(() => Math.random() - 0.5)
@@ -18,25 +33,22 @@ function startTest() {
     .sort(() => Math.random() - 0.5);
   testIndex = -1;
   console.log("shuffle:", questions);
-  
+
   nextQuestion();
-  
 }
 function prevQuestion() {
-  
-  $('.celebration').hide();
+  $(".celebration").hide();
   if (testIndex > 0) {
     testIndex -= 2; // okay this has to be fixed some day
     nextQuestion();
-  
   }
 }
 function nextQuestion() {
   $("#prev").prop("disabled", false);
-  if(testIndex === -1) $("#prev").prop("disabled", true);
+  if (testIndex === -1) $("#prev").prop("disabled", true);
   $("#next").prop("disabled", false);
-  if(testIndex === questions.length) $("#next").prop("disabled", true);
-  $('#next').blur(); // unfocus the next button to fix issues with spacebar
+  if (testIndex === questions.length) $("#next").prop("disabled", true);
+  $("#next").blur(); // unfocus the next button to fix issues with spacebar
   if (testIndex < questions.length - 1) {
     testIndex += 1;
     $("#counter").text(
@@ -59,7 +71,7 @@ function nextQuestion() {
           $("#question")
             .html()
             .replaceAll(
-              RegExp(`\\$${entry[0]}`, 'g'),
+              RegExp(`\\$${entry[0]}`, "g"),
               `<select name="${entry[0]}"><option style="display:none">${options}</select>`
             )
         )
@@ -101,30 +113,35 @@ function nextQuestion() {
     $("#correctAnswers").text("");
     $("#explanationContent").text("");
     answers.forEach((ans, index) => {
-      setTimeout(() => {
         $("#testBody").append(
           `<tr>
             <td class="ans" onclick="ans${index}.click()" ${
             ans.includes("\n") ? 'style="text-align:left"' : ""
           }>
-              <input class="ans" id="ans${index}" type="checkbox" name="${ans.replaceAll(/"/g, '&quot;')}" value="${ans.replaceAll(/"/g, '&quot;')}">
-                <label for="${ans.replaceAll(/"/g, '&quot;')}">${ans.replaceAll(/\n/g, "<br/>")}</label>
-              </input>
+              <input class="ans" id="ans${index}" type="checkbox" name="${ans.replaceAll(
+            /"/g,
+            "&quot;"
+          )}" value="${ans.replaceAll(/"/g, "&quot;")}">
+          </input>
+                <label for="${ans.replaceAll(/"/g, "&quot;")}">${ans.replaceAll(
+            /\n/g,
+            "<br/>"
+          )}</label>
+              
             </td>
           </tr>`
         );
-  
         console.log(ans);
-        console.log(ans.replaceAll(/"/g, '&quot;'));
-      }, index*answersAppearingDelay)}
-    );
+        console.log(ans.replaceAll(/"/g, "&quot;"));
+    });
   } else {
     if (hardcore) {
       alert("CONGRATULATIONS! You're a real tryhard");
     }
-    $('.celebration').show();
+    $(".celebration").show();
     $("#next").prop("disabled", true);
   }
+  renderKaTeX();
 }
 
 function loadQuestionsFile(text) {
@@ -185,8 +202,13 @@ function answersToMatch(match) {
   $("select").each(function (i) {
     selects.push($(this)[0]);
   });
-  
-  return '<br/>'+selects.map(s => `${match?.[s.value]||''} -> ${match?.[s.name]}`).join('<br/>');
+
+  return (
+    "<br/>" +
+    selects
+      .map((s) => `${match?.[s.value] || ""} -> ${match?.[s.name]}`)
+      .join("<br/>")
+  );
 }
 function checkTest() {
   const question = questions[testIndex];
@@ -215,11 +237,11 @@ function checkTest() {
 
   $("#correctAnswers").html(
     `Correct Answers are: ${
-      question.correct?.join(", ") || answersToMatch(question.match) || ''
+      question.correct?.join(", ") || answersToMatch(question.match) || ""
     }`
   );
   $("#explanationContent").text(question.explanation || "");
-  if(!allOK){
+  if (!allOK) {
     failedQuestions.push(question);
     if (hardcore) {
       // one mistake resets the test
@@ -230,6 +252,7 @@ function checkTest() {
       nextQuestion();
     }
   }
+  renderKaTeX();
 }
 f.onchange = function () {
   var zip = new JSZip();
@@ -289,40 +312,37 @@ function stopVideo() {
   player.stopVideo();
 }
 function initiateCramminator() {
-    // load saved questions
-    questions = JSON.parse(localStorage.getItem("savedQuestions"));
-    images = JSON.parse(localStorage.getItem("savedImages")) || [];
-    folderName = localStorage.getItem("savedFolderName");
-    console.log("loaded saved file: ", questions);
-    if (questions) {
-      startTest();
-      $("#loadedName").text("saved file");
+  // load saved questions
+  questions = JSON.parse(localStorage.getItem("savedQuestions"));
+  images = JSON.parse(localStorage.getItem("savedImages")) || [];
+  folderName = localStorage.getItem("savedFolderName");
+  console.log("loaded saved file: ", questions);
+  if (questions) {
+    startTest();
+    $("#loadedName").text("saved file");
+  }
+  // add keyboard support
+  document.addEventListener("keydown", function (event) {
+    if (event.key == "ArrowLeft") {
+      if (questions) prevQuestion();
+    } else if (event.key == "ArrowRight") {
+      if (questions) nextQuestion();
+    } else if (event.key == " ") {
+      if (questions) checkTest();
+    } else {
+      const number = Number(event.key);
+      if (number != NaN) {
+        const answers = $("td.ans");
+        let index = number !== 0 ? number - 1 : 9;
+        index += event.getModifierState("CapsLock") * 10;
+        console.log(index);
+        answers?.[`${index}`]?.click();
+      }
     }
-    // add keyboard support
-    document.addEventListener('keydown', function(event) {
-      if(event.key == 'ArrowLeft') {
-        if(questions) prevQuestion();
-      }
-      else if(event.key == 'ArrowRight') {
-        if(questions) nextQuestion();
-      }
-      else if(event.key == ' ') {
-        if(questions) checkTest();
-      }
-      else {
-        const number = Number(event.key);
-        if(number != NaN){
-          const answers  = $('td.ans');
-          let index = number!==0 ? number-1 : 9;
-          index += event.getModifierState('CapsLock')*10;
-          console.log(index);
-          answers?.[`${index}`]?.click();
-        }
-      }
   });
 }
 function reviewFailed() {
-  if(!failedQuestions.length) {
+  if (!failedQuestions.length) {
     alert("You haven't failed a single question yet");
     return;
   }
