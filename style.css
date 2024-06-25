@@ -100,6 +100,9 @@ iframe {
     filter: drop-shadow(0px 0px 0.5rem #f08000);
 
 }
+#question {
+  text-align: justify;
+}
 #testBody {
     width: 100%;
     border-spacing: 10px;
