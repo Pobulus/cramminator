@@ -9,18 +9,18 @@ var retries = 0;
 var player = undefined;
 var answersAppearingDelay = 5;
 
-function renderKaTeX(){
+function renderKaTeX() {
   renderMathInElement(document.body, {
     // customised options
     // • auto-render specific keys, e.g.:
     delimiters: [
-        {left: '$$', right: '$$', display: true},
-        {left: '$', right: '$', display: false},
-        {left: '\\(', right: '\\)', display: false},
-        {left: '\\[', right: '\\]', display: true}
+      { left: "$$", right: "$$", display: true },
+      { left: "$", right: "$", display: false },
+      { left: "\\(", right: "\\)", display: false },
+      { left: "\\[", right: "\\]", display: true },
     ],
     // • rendering keys, e.g.:
-    throwOnError : false
+    throwOnError: false,
   });
 }
 
@@ -96,6 +96,7 @@ function nextQuestion() {
     } else {
       $("#question-image").attr("src", "");
     }
+
     let answers = [];
     answers = answers.concat(question.correct || []);
     answers = answers.concat(question.wrong || []);
@@ -113,27 +114,32 @@ function nextQuestion() {
     $("#correctAnswers").text("");
     $("#explanationContent").text("");
     answers.forEach((ans, index) => {
-        $("#testBody").append(
-          `<tr>
+      $("#testBody").append(
+        `<tr>
             <td class="ans" onclick="ans${index}.click()" ${
-            ans.includes("\n") ? 'style="text-align:left"' : ""
-          }>
+          ans.includes("\n") ? 'style="text-align:left"' : ""
+        }>
               <input class="ans" id="ans${index}" type="checkbox" name="${ans.replaceAll(
-            /"/g,
-            "&quot;"
-          )}" value="${ans.replaceAll(/"/g, "&quot;")}">
+          /"/g,
+          "&quot;"
+        )}" value="${ans.replaceAll(/"/g, "&quot;")}">
           </input>
                 <label for="${ans.replaceAll(/"/g, "&quot;")}">${ans.replaceAll(
-            /\n/g,
-            "<br/>"
-          )}</label>
+          /\n/g,
+          "<br/>"
+        )}</label>
               
             </td>
           </tr>`
-        );
-        console.log(ans);
-        console.log(ans.replaceAll(/"/g, "&quot;"));
+      );
+      console.log(ans);
+      console.log(ans.replaceAll(/"/g, "&quot;"));
     });
+    if (question.answer) {
+      $("#testBody").append(
+        `<input id="answer" type="${question.type ?? "text"}"></input>`
+      );
+    }
   } else {
     if (hardcore) {
       alert("CONGRATULATIONS! You're a real tryhard");
@@ -145,9 +151,15 @@ function nextQuestion() {
 }
 
 function loadQuestionsFile(text) {
-  questions = jsyaml.load(text);
-  localStorage.setItem("savedQuestions", JSON.stringify(questions));
-  console.log("loaded:", questions);
+  try {
+    questions = jsyaml.load(text);
+    localStorage.removeItem("savedQuestions");
+    localStorage.setItem("savedQuestions", JSON.stringify(questions));
+    console.log("loaded:", questions);
+    alert('Test loaded successfully!');
+  } catch (ex) {
+    alert(ex);
+  }
 }
 async function chooseFile(list) {
   $("#fileList").empty();
@@ -160,7 +172,6 @@ async function chooseFile(list) {
         await x.async("string").then((result) => loadQuestionsFile(result));
         startTest();
         $("#filePrompt").hide();
-        alert(`${filename} loaded successfully!`);
         $("#loadedName").text(filename);
       });
   });
@@ -172,12 +183,14 @@ async function loadTest(zip) {
   console.log("files:", fileList);
 
   let imgs = zip.filter((x) => x.includes(".png"));
+
   for await (const f of imgs) {
     await f.async("base64").then(function (data64) {
       var dataURI = "data:image/png;base64," + data64;
       images.push({ name: f.name, dataURI });
     });
   }
+  localStorage.removeItem("savedImages");
   localStorage.setItem("savedImages", JSON.stringify(images));
   if (fileList.length === 0) {
     alert("Missing a yaml file!");
@@ -188,7 +201,6 @@ async function loadTest(zip) {
       .async("string")
       .then((result) => loadQuestionsFile(result));
     startTest();
-    alert(`${fileList[0].name} loaded successfully!`);
     $("#loadedName").text(fileList[0].name.split("/").slice(1).join("/"));
   } else {
     chooseFile(fileList);
@@ -234,11 +246,19 @@ function checkTest() {
       allOK = false;
     }
   });
-
+  $("#answer").each(function (i) {
+    // loose type comparison
+    if ($(this)[0].value == question.answer) {
+      $(this).css("background", "var(--correct-color)");
+    } else {
+      $(this).css("background", "var(--wrong-color)");
+      allOK = false;
+    }
+  });
   $("#correctAnswers").html(
     `Correct Answers are: ${
       question.correct?.join(", ") || answersToMatch(question.match) || ""
-    }`
+    } ${question.answer ?? ""}`
   );
   $("#explanationContent").text(question.explanation || "");
   if (!allOK) {
