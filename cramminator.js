@@ -135,7 +135,7 @@ function nextQuestion() {
       console.log(ans);
       console.log(ans.replaceAll(/"/g, "&quot;"));
     });
-    if (question.answer) {
+    if (question.answer !== undefined) {
       $("#testBody").append(
         `<input id="answer" type="${question.type ?? "text"}"></input>`
       );
