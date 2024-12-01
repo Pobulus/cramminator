@@ -247,8 +247,28 @@ function checkTest() {
     }
   });
   $("#answer").each(function (i) {
+    const fuseOptions = {
+      // isCaseSensitive: false,
+      // includeScore: false,
+      // shouldSort: true,
+      // includeMatches: false,
+      // findAllMatches: false,
+      minMatchCharLength: 3,
+      // location: 0,
+      threshold: 0.2,
+      distance: 2,
+      // useExtendedSearch: false,
+      // ignoreLocation: false,
+      // ignoreFieldNorm: false,
+      // fieldNormWeight: 1,
+      
+    };
+    
+    const fuse = new Fuse([String(question.answer)], fuseOptions);
+    console.log('fuse', fuse.search(String($(this)[0].value)));
+    
     // loose type comparison
-    if ($(this)[0].value == question.answer) {
+    if ( $(this)[0].value == question.answer || (question.type === 'text' && fuse.search($(this)[0].value).length)) {
       $(this).css("background", "var(--correct-color)");
     } else {
       $(this).css("background", "var(--wrong-color)");
