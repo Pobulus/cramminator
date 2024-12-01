@@ -347,7 +347,7 @@ function initiateCramminator() {
       if (questions) prevQuestion();
     } else if (event.key == "ArrowRight") {
       if (questions) nextQuestion();
-    } else if (event.key == " ") {
+    } else if (event.key == "Enter") {
       if (questions) checkTest();
     } else {
       const number = Number(event.key);
