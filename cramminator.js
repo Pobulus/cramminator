@@ -331,6 +331,9 @@ function toggleOverview() {
   } else {
     $("#overviewBox").removeClass("hardcore");
   }
+  // reload this question to render answers 
+  testIndex -= 1;
+  nextQuestion();
 }
 // stuff related to the bgm player
 function bindPlayer(p) {
