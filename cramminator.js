@@ -7,7 +7,22 @@ var folderName;
 var hardcore = false;
 var retries = 0;
 var player = undefined;
+var overview = false;
 var answersAppearingDelay = 5;
+
+function shuffle(cont) {
+  return overview ? cont : cont 
+  .sort(() => Math.random() - 0.5)
+  .sort(() => Math.random() - 0.5)
+  .sort(() => Math.random() - 0.5)
+  .sort(() => Math.random() - 0.5);
+}
+function markCorrect(item) {
+  item.css("background", overview ? "var(--wrong-color)" :"var(--correct-color)");
+}
+function markWrong(item) {
+  item.css("background", overview ? "var(--correct-color)" : "var(--wrong-color)");
+}
 
 function renderKaTeX() {
   renderMathInElement(document.body, {
@@ -26,14 +41,9 @@ function renderKaTeX() {
 
 function startTest() {
   $(".celebration").hide();
-  questions = questions
-    .sort(() => Math.random() - 0.5)
-    .sort(() => Math.random() - 0.5)
-    .sort(() => Math.random() - 0.5)
-    .sort(() => Math.random() - 0.5);
+  questions = shuffle(questions);
   testIndex = -1;
   console.log("shuffle:", questions);
-
   nextQuestion();
 }
 function prevQuestion() {
@@ -60,9 +70,7 @@ function nextQuestion() {
       question.question?.replaceAll(/\n/g, "<br/>") || "<i>missing question</i>"
     );
     if (question.match) {
-      const allAnswers = Object.entries(question.match).sort(
-        () => Math.random() - 0.5
-      );
+      const allAnswers = shuffle(Object.entries(question.match));
       const options = allAnswers
         .map((o) => `<option value="${o[0]}">${o[1]}</option>`)
         .join("\n");
@@ -101,14 +109,7 @@ function nextQuestion() {
     answers = answers.concat(question.correct || []);
     answers = answers.concat(question.wrong || []);
 
-    answers = answers
-      .sort(() => Math.random() - 0.5)
-      .sort(() => Math.random() - 0.5)
-      .sort(() => Math.random() - 0.5)
-      .sort(() => Math.random() - 0.5)
-      .sort(() => Math.random() - 0.5)
-      .sort(() => Math.random() - 0.5)
-      .sort(() => Math.random() - 0.5);
+    answers = shuffle(answers);
     console.log(answers);
     $("#testBody").empty();
     $("#correctAnswers").text("");
@@ -147,6 +148,7 @@ function nextQuestion() {
     $(".celebration").show();
     $("#next").prop("disabled", true);
   }
+  if(overview) {checkTest();}
   renderKaTeX();
 }
 
@@ -230,19 +232,19 @@ function checkTest() {
     console.log(this);
     console.log(this.checked);
     if (this.checked && question.correct?.includes(this.value)) {
-      $(this).parent().css("background", "var(--correct-color)");
+      markCorrect($(this).parent());
     } else if (!this.checked && question.wrong?.includes(this.value)) {
-      $(this).parent().css("background", "var(--correct-color)");
+      markCorrect($(this).parent());
     } else {
-      $(this).parent().css("background", "var(--wrong-color)");
+      markWrong($(this).parent());
       allOK = false;
     }
   });
   $("select").each(function (i) {
     if ($(this)[0].value === $(this)[0].name) {
-      $(this).css("background", "var(--correct-color)");
+      markCorrect($(this));
     } else {
-      $(this).css("background", "var(--wrong-color)");
+      markWrong($(this));
       allOK = false;
     }
   });
@@ -269,9 +271,9 @@ function checkTest() {
     
     // loose type comparison
     if ( $(this)[0].value == question.answer || (question.type === 'text' && fuse.search($(this)[0].value).length)) {
-      $(this).css("background", "var(--correct-color)");
+      markCorrect($(this));
     } else {
-      $(this).css("background", "var(--wrong-color)");
+      markWrong($(this));
       allOK = false;
     }
   });
@@ -280,7 +282,7 @@ function checkTest() {
       question.correct?.join(", ") || answersToMatch(question.match) || ""
     } ${question.answer ?? ""}`
   );
-  $("#explanationContent").text(question.explanation || "");
+  $("#explanationContent").html(question.explanation?.replaceAll(/\n/g, "<br/>") || "");
   if (!allOK) {
     failedQuestions.push(question);
     if (hardcore) {
@@ -319,6 +321,15 @@ function toggleHardcore() {
     $("#hardcoreBox").addClass("hardcore");
   } else {
     $("#hardcoreBox").removeClass("hardcore");
+  }
+}
+function toggleOverview() {
+  overview = !overview;
+  $("#overviewToggle").html(`Overview?<b> ${overview ? "Yes" : "No"}</b>`);
+  if (overview) {
+    $("#overviewBox").addClass("hardcore");
+  } else {
+    $("#overviewBox").removeClass("hardcore");
   }
 }
 // stuff related to the bgm player

@@ -405,16 +405,28 @@ input.button-63::file-selector-button:hover {
     padding: 5px;
     background: rgb(43,43,46);
     
-    text-align: center;
+    text-align: center; 
     background: linear-gradient(54deg, rgba(43,43,46,1) 0%, rgba(109,115,125,1) 100%);
 }
 #hardcoreBox.hardcore {
     background: rgb(154, 26, 21);
     background: linear-gradient(54deg, rgba(186,1,0,1) 0%, rgba(221,109,37,1) 70%, rgba(224,0,0,1) 100%);
+}
+#overviewBox {
+  border-radius: 10px;
+  padding: 5px;
+  user-select: none;
+  background: rgb(43,43,46);
+  margin-top: 15px;
+  text-align: center;
+  background: linear-gradient(54deg, rgba(43,43,46,1) 0%, rgba(109,115,125,1) 100%);
+}
+#overviewBox.hardcore {
+  background: rgb(76, 224, 7);
+  background: linear-gradient(54deg, rgb(0, 134, 7) 0%, rgb(107, 216, 35) 70%, rgb(12, 180, 6) 100%);
 
 
 }
-
 @media (orientation: portrait){
         input.button-63::file-selector-button {
             font-size: 2.5em;
