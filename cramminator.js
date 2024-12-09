@@ -7,7 +7,7 @@ var folderName;
 var hardcore = false;
 var retries = 0;
 var player = undefined;
-var overview = true;
+var overview = false;
 var answersAppearingDelay = 5;
 
 function shuffle(cont) {
