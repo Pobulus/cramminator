@@ -1,4 +1,5 @@
 var questions = [];
+var orderedQuestions = [];
 var failedQuestions = [];
 var images = [];
 var testIndex = 0;
@@ -11,17 +12,25 @@ var overview = false;
 var answersAppearingDelay = 5;
 
 function shuffle(cont) {
-  return overview ? cont : cont 
-  .sort(() => Math.random() - 0.5)
-  .sort(() => Math.random() - 0.5)
-  .sort(() => Math.random() - 0.5)
-  .sort(() => Math.random() - 0.5);
+  return overview
+    ? cont
+    : cont
+        .sort(() => Math.random() - 0.5)
+        .sort(() => Math.random() - 0.5)
+        .sort(() => Math.random() - 0.5)
+        .sort(() => Math.random() - 0.5);
 }
 function markCorrect(item) {
-  item.css("background", overview ? "var(--wrong-color)" :"var(--correct-color)");
+  item.css(
+    "background",
+    overview ? "var(--wrong-color)" : "var(--correct-color)"
+  );
 }
 function markWrong(item) {
-  item.css("background", overview ? "var(--correct-color)" : "var(--wrong-color)");
+  item.css(
+    "background",
+    overview ? "var(--correct-color)" : "var(--wrong-color)"
+  );
 }
 
 function renderKaTeX() {
@@ -148,17 +157,20 @@ function nextQuestion() {
     $(".celebration").show();
     $("#next").prop("disabled", true);
   }
-  if(overview) {checkTest();}
+  if (overview) {
+    checkTest();
+  }
   renderKaTeX();
 }
 
 function loadQuestionsFile(text) {
   try {
     questions = jsyaml.load(text);
+    orderedQuestions = jsyaml.load(text);
     localStorage.removeItem("savedQuestions");
     localStorage.setItem("savedQuestions", JSON.stringify(questions));
     console.log("loaded:", questions);
-    alert('Test loaded successfully!');
+    alert("Test loaded successfully!");
   } catch (ex) {
     alert(ex);
   }
@@ -263,14 +275,16 @@ function checkTest() {
       // ignoreLocation: false,
       // ignoreFieldNorm: false,
       // fieldNormWeight: 1,
-      
     };
-    
+
     const fuse = new Fuse([String(question.answer)], fuseOptions);
-    console.log('fuse', fuse.search(String($(this)[0].value)));
-    
+    console.log("fuse", fuse.search(String($(this)[0].value)));
+
     // loose type comparison
-    if ( $(this)[0].value == question.answer || (question.type === 'text' && fuse.search($(this)[0].value).length)) {
+    if (
+      $(this)[0].value == question.answer ||
+      (question.type === "text" && fuse.search($(this)[0].value).length)
+    ) {
       markCorrect($(this));
     } else {
       markWrong($(this));
@@ -282,7 +296,9 @@ function checkTest() {
       question.correct?.join(", ") || answersToMatch(question.match) || ""
     } ${question.answer ?? ""}`
   );
-  $("#explanationContent").html(question.explanation?.replaceAll(/\n/g, "<br/>") || "");
+  $("#explanationContent").html(
+    question.explanation?.replaceAll(/\n/g, "<br/>") || ""
+  );
   if (!allOK) {
     failedQuestions.push(question);
     if (hardcore) {
@@ -331,9 +347,8 @@ function toggleOverview() {
   } else {
     $("#overviewBox").removeClass("hardcore");
   }
-  // reload this question to render answers 
-  testIndex -= 1;
-  nextQuestion();
+  questions = [...orderedQuestions];
+  startTest();
 }
 // stuff related to the bgm player
 function bindPlayer(p) {
