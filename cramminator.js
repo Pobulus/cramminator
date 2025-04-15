@@ -1,4 +1,5 @@
 var questions = [];
+var file;
 var orderedQuestions = [];
 var failedQuestions = [];
 var images = [];
@@ -62,6 +63,14 @@ function prevQuestion() {
     nextQuestion();
   }
 }
+
+function parseToCSS(style) {
+  const parseRules = (rules) => Object.entries(rules).map(([rule, value]) => `${rule}: ${value}`).join(';\n');
+  return Object.entries(style).map(([selector, rules]) => {
+    return `${selector}{${parseRules(rules)}}`;
+  }).join('\n').replace(/\$/g, '#');
+}
+
 function nextQuestion() {
   $("#prev").prop("disabled", false);
   if (testIndex === -1) $("#prev").prop("disabled", true);
@@ -78,6 +87,11 @@ function nextQuestion() {
     $("#question").html(
       question.question?.replaceAll(/\n/g, "<br/>") || "<i>missing question</i>"
     );
+    if(question.style) {
+      $('#questionStyle').text(parseToCSS(question.style))
+    } else {
+      $('#questionStyle').text('')
+    }
     if (question.match) {
       const allAnswers = shuffle(Object.entries(question.match));
       const options = allAnswers
@@ -166,6 +180,7 @@ function nextQuestion() {
 function loadQuestionsFile(text) {
   try {
     questions = jsyaml.load(text);
+    
     orderedQuestions = jsyaml.load(text);
     localStorage.removeItem("savedQuestions");
     localStorage.setItem("savedQuestions", JSON.stringify(questions));
