@@ -79,7 +79,11 @@ function parseToCSS(style) {
     .join("\n")
     .replace(/\$/g, "#");
 }
-
+function customSymbols(question) {
+  const symbols = question.symbols || file.symbols
+  if(!symbols) return null;
+  return symbols.map(symbol => `<button class="sym-key" onclick="$('#answer').val(() =>  $('#answer').val() + '${symbol}')">${symbol}</button>`)
+}
 function nextQuestion() {
   $("#prev").prop("disabled", false);
   if (testIndex === -1) $("#prev").prop("disabled", true);
@@ -169,6 +173,7 @@ function nextQuestion() {
       $("#testBody").append(
         `<input id="answer" type="${question.type ?? "text"}"></input>`
       );
+      $("#testBody").prepend(customSymbols(question));
     }
   } else {
     if (hardcore) {
@@ -293,7 +298,7 @@ function checkTest() {
       minMatchCharLength: 3,
       threshold: 0.2,
       distance: 2,
-      // override with options from quesiton on file
+      // override with options from question on file
       ...(question.rules || file.rules || {}),
     };
 
