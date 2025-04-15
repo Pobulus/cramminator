@@ -50,8 +50,8 @@ function renderKaTeX() {
 
 function startTest() {
   $(".celebration").hide();
-  questions = shuffle([ ...file.questions]);
-  $('#testStyle').text(parseToCSS(file.style));
+  questions = shuffle([...file.questions]);
+  $("#testStyle").text(parseToCSS(file.style));
   testIndex = -1;
   console.log("shuffle:", questions);
   nextQuestion();
@@ -65,11 +65,17 @@ function prevQuestion() {
 }
 
 function parseToCSS(style) {
-  if(!style) return '';
-  const parseRules = (rules) => Object.entries(rules).map(([rule, value]) => `${rule}: ${value}`).join(';\n');
-  return Object.entries(style).map(([selector, rules]) => {
-    return `${selector}{${parseRules(rules)}}`;
-  }).join('\n').replace(/\$/g, '#');
+  if (!style) return "";
+  const parseRules = (rules) =>
+    Object.entries(rules)
+      .map(([rule, value]) => `${rule}: ${value}`)
+      .join(";\n");
+  return Object.entries(style)
+    .map(([selector, rules]) => {
+      return `${selector}{${parseRules(rules)}}`;
+    })
+    .join("\n")
+    .replace(/\$/g, "#");
 }
 
 function nextQuestion() {
@@ -89,7 +95,7 @@ function nextQuestion() {
       question.question?.replaceAll(/\n/g, "<br/>") || "<i>missing question</i>"
     );
 
-    $('#questionStyle').text(parseToCSS(question.style))
+    $("#questionStyle").text(parseToCSS(question.style));
     if (question.match) {
       const allAnswers = shuffle(Object.entries(question.match));
       const options = allAnswers
@@ -178,13 +184,14 @@ function nextQuestion() {
 function loadQuestionsFile(text) {
   try {
     const raw = jsyaml.load(text);
-    if(Array.isArray(raw)) { // old system
-      console.warn('Warning, this test file uses deprecated syntax')
-      file = {questions: raw}
+    if (Array.isArray(raw)) {
+      // old system
+      console.warn("Warning, this test file uses deprecated syntax");
+      file = { questions: raw };
     } else {
       file = raw;
     }
-    questions = raw.questions
+    questions = raw.questions;
 
     localStorage.removeItem("savedFile");
     localStorage.setItem("savedFile", JSON.stringify(file));
@@ -281,22 +288,15 @@ function checkTest() {
   });
   $("#answer").each(function (i) {
     const fuseOptions = {
-      // isCaseSensitive: false,
-      // includeScore: false,
-      // shouldSort: true,
-      // includeMatches: false,
-      // findAllMatches: false,
       minMatchCharLength: 3,
-      // location: 0,
       threshold: 0.2,
       distance: 2,
-      // useExtendedSearch: false,
-      // ignoreLocation: false,
-      // ignoreFieldNorm: false,
-      // fieldNormWeight: 1,
+      // override with options from quesiton on file
+      ...(question.rules || file.rules || {}),
     };
 
     const fuse = new Fuse([String(question.answer)], fuseOptions);
+    console.log('fuse Rules', fuseOptions);
     console.log("fuse", fuse.search(String($(this)[0].value)));
 
     // loose type comparison
@@ -360,7 +360,7 @@ function toggleHardcore() {
 }
 function toggleOverview() {
   overview = !overview;
-  if(hardcore) toggleHardcore();
+  if (hardcore) toggleHardcore();
   $("#overviewToggle").html(`Overview?<b> ${overview ? "Yes" : "No"}</b>`);
   if (overview) {
     $("#overviewBox").addClass("hardcore");
@@ -432,7 +432,7 @@ function initiateCramminator() {
   });
 }
 function reviewFailed() {
-  if(overview) return;
+  if (overview) return;
   if (!failedQuestions.length) {
     alert("You haven't failed a single question yet");
     return;
