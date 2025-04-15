@@ -53,6 +53,7 @@ function startTest() {
   questions = shuffle([...file.questions]);
   $("#testStyle").text(parseToCSS(file.style));
   if(file.name) $('#loadedName').html(file.name)
+  if(file.soundtrack) $("#soundtrack-input").val(file.soundtrack)
 
   testIndex = -1;
   console.log("shuffle:", questions);
