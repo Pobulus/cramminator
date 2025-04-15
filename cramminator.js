@@ -52,6 +52,8 @@ function startTest() {
   $(".celebration").hide();
   questions = shuffle([...file.questions]);
   $("#testStyle").text(parseToCSS(file.style));
+  if(file.name) $('#loadedName').html(file.name)
+
   testIndex = -1;
   console.log("shuffle:", questions);
   nextQuestion();
@@ -240,8 +242,8 @@ async function loadTest(zip) {
     await fileList[0]
       .async("string")
       .then((result) => loadQuestionsFile(result));
-    startTest();
-    $("#loadedName").text(fileList[0].name.split("/").slice(1).join("/"));
+      $("#loadedName").text(fileList[0].name.split("/").slice(1).join("/"));
+      startTest();
   } else {
     chooseFile(fileList);
   }
@@ -408,8 +410,8 @@ function initiateCramminator() {
   folderName = localStorage.getItem("savedFolderName");
   console.log("loaded saved file: ", questions);
   if (questions) {
-    startTest();
     $("#loadedName").text("saved file");
+    startTest();
   }
   // add keyboard support
   document.addEventListener("keydown", function (event) {
