@@ -82,7 +82,7 @@ function parseToCSS(style) {
 function customSymbols(question) {
   const symbols = question.symbols || file.symbols
   if(!symbols) return null;
-  return symbols.map(symbol => `<button class="sym-key" onclick="$('#answer').val(() =>  $('#answer').val() + '${symbol}')">${symbol}</button>`)
+  return symbols.map(symbol => `<button class="sym-key" onclick="$('#answer').val(() =>  $('#answer').val() + '${symbol}');$('#answer').focus()">${symbol}</button>`)
 }
 function nextQuestion() {
   $("#prev").prop("disabled", false);
