@@ -341,6 +341,7 @@ function toggleHardcore() {
 }
 function toggleOverview() {
   overview = !overview;
+  if(hardcore) toggleHardcore();
   $("#overviewToggle").html(`Overview?<b> ${overview ? "Yes" : "No"}</b>`);
   if (overview) {
     $("#overviewBox").addClass("hardcore");
@@ -382,7 +383,8 @@ function stopVideo() {
 }
 function initiateCramminator() {
   // load saved questions
-  questions = JSON.parse(localStorage.getItem("savedQuestions"));
+  orderedQuestions = JSON.parse(localStorage.getItem("savedQuestions"));
+  questions = [...orderedQuestions];
   images = JSON.parse(localStorage.getItem("savedImages")) || [];
   folderName = localStorage.getItem("savedFolderName");
   console.log("loaded saved file: ", questions);
@@ -411,6 +413,7 @@ function initiateCramminator() {
   });
 }
 function reviewFailed() {
+  if(overview) return;
   if (!failedQuestions.length) {
     alert("You haven't failed a single question yet");
     return;
