@@ -1,6 +1,5 @@
 var questions = [];
 var file;
-var orderedQuestions = [];
 var failedQuestions = [];
 var images = [];
 var testIndex = 0;
@@ -51,7 +50,8 @@ function renderKaTeX() {
 
 function startTest() {
   $(".celebration").hide();
-  questions = shuffle(questions);
+  questions = shuffle([ ...file.questions]);
+  $('#testStyle').text(parseToCSS(file.style));
   testIndex = -1;
   console.log("shuffle:", questions);
   nextQuestion();
@@ -65,6 +65,7 @@ function prevQuestion() {
 }
 
 function parseToCSS(style) {
+  if(!style) return '';
   const parseRules = (rules) => Object.entries(rules).map(([rule, value]) => `${rule}: ${value}`).join(';\n');
   return Object.entries(style).map(([selector, rules]) => {
     return `${selector}{${parseRules(rules)}}`;
@@ -87,11 +88,8 @@ function nextQuestion() {
     $("#question").html(
       question.question?.replaceAll(/\n/g, "<br/>") || "<i>missing question</i>"
     );
-    if(question.style) {
-      $('#questionStyle').text(parseToCSS(question.style))
-    } else {
-      $('#questionStyle').text('')
-    }
+
+    $('#questionStyle').text(parseToCSS(question.style))
     if (question.match) {
       const allAnswers = shuffle(Object.entries(question.match));
       const options = allAnswers
@@ -179,12 +177,18 @@ function nextQuestion() {
 
 function loadQuestionsFile(text) {
   try {
-    questions = jsyaml.load(text);
-    
-    orderedQuestions = jsyaml.load(text);
-    localStorage.removeItem("savedQuestions");
-    localStorage.setItem("savedQuestions", JSON.stringify(questions));
-    console.log("loaded:", questions);
+    const raw = jsyaml.load(text);
+    if(Array.isArray(raw)) { // old system
+      console.warn('Warning, this test file uses deprecated syntax')
+      file = {questions: raw}
+    } else {
+      file = raw;
+    }
+    questions = raw.questions
+
+    localStorage.removeItem("savedFile");
+    localStorage.setItem("savedFile", JSON.stringify(file));
+    console.log("loaded:", file);
     alert("Test loaded successfully!");
   } catch (ex) {
     alert(ex);
@@ -363,7 +367,7 @@ function toggleOverview() {
   } else {
     $("#overviewBox").removeClass("hardcore");
   }
-  questions = [...orderedQuestions];
+  questions = [...(file?.questions || [])];
   startTest();
 }
 // stuff related to the bgm player
@@ -398,8 +402,8 @@ function stopVideo() {
 }
 function initiateCramminator() {
   // load saved questions
-  orderedQuestions = JSON.parse(localStorage.getItem("savedQuestions"));
-  questions = [...orderedQuestions];
+  file = JSON.parse(localStorage.getItem("savedFile"));
+  questions = [...(file?.questions || [])];
   images = JSON.parse(localStorage.getItem("savedImages")) || [];
   folderName = localStorage.getItem("savedFolderName");
   console.log("loaded saved file: ", questions);
