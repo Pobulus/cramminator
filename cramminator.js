@@ -114,7 +114,7 @@ function nextQuestion() {
             .html()
             .replaceAll(
               RegExp(`\\$${entry[0]}`, "g"),
-              `<select name="${entry[0]}"><option style="display:none">${options}</select>`
+              `<select name="${entry[0]}"><option style="display:none">${overview ? entry[1] : ''}</option>${options}</select>`
             )
         )
       );
@@ -172,7 +172,7 @@ function nextQuestion() {
     });
     if (question.answer !== undefined) {
       $("#testBody").append(
-        `<input id="answer" type="${question.type ?? "text"}"></input>`
+        `<input id="answer" type="${question.type ?? "text"}" placeholder="${overview ? question.answer : ''}"></input>`
       );
       $("#testBody").prepend(customSymbols(question));
     }
@@ -287,7 +287,9 @@ function checkTest() {
     }
   });
   $("select").each(function (i) {
-    if ($(this)[0].value === $(this)[0].name) {
+    const answered = question.match[$(this)[0].value];
+    const expected = question.match[$(this)[0].name];
+    if (answered === expected) {
       markCorrect($(this));
     } else {
       markWrong($(this));
