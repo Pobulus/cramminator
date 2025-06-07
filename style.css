@@ -7,9 +7,15 @@
     100% { filter: none;}
 } */
 :root {
-  --correct-color:rgb(26, 143, 26);
+  --correct-color:rgb(61, 197, 61);
   --wrong-color: rgb(75, 32, 32);
+  --correct-color-text: black;
+  --wrong-color-text: yellow;
   --selected-color: #d0b000;
+}
+#loadOther:hover {
+  cursor: pointer;
+  font-weight: 900;
 }
 #extraControls{
   display: flex;

@@ -9,10 +9,12 @@ var hardcore = false;
 var retries = 0;
 var player = undefined;
 var overview = false;
+var randomize = true;
 var answersAppearingDelay = 5;
+var fileList = undefined;
 
 function shuffle(cont) {
-  return overview
+  return !randomize || overview
     ? cont
     : cont
         .sort(() => Math.random() - 0.5)
@@ -25,11 +27,19 @@ function markCorrect(item) {
     "background",
     overview ? "var(--wrong-color)" : "var(--correct-color)"
   );
+  item.css(
+    "color",
+    overview ? "var(--wrong-color-text)" : "var(--correct-color-text)"
+  );
 }
 function markWrong(item) {
   item.css(
     "background",
     overview ? "var(--correct-color)" : "var(--wrong-color)"
+  );
+  item.css(
+    "color",
+    overview ? "var(--correct-color-text)" : "var(--wrong-color-text)"
   );
 }
 
@@ -50,6 +60,7 @@ function renderKaTeX() {
 
 function startTest() {
   $(".celebration").hide();
+  if(typeof file.randomize !== undefined)randomize = file.randomize;
   questions = shuffle([...file.questions]);
   $("#testStyle").text(parseToCSS(file.style));
   if(file.name) $('#loadedName').html(file.name)
@@ -175,6 +186,7 @@ function nextQuestion() {
         `<input id="answer" type="${question.type ?? "text"}" placeholder="${overview ? question.answer : ''}"></input>`
       );
       $("#testBody").prepend(customSymbols(question));
+      $('#answer').focus();
     }
   } else {
     if (hardcore) {
@@ -209,9 +221,14 @@ function loadQuestionsFile(text) {
     alert(ex);
   }
 }
+async function loadOther() {
+  if(!fileList) return alert('No files in the list');
+  chooseFile(fileList);
+}
 async function chooseFile(list) {
   $("#fileList").empty();
-  list.forEach((x) => {
+  // filter out macos added metafiles
+  list.filter(x => !x.name.match(/\._/)).sort((a,b) => a.name > b.name).forEach((x) => {
     const filename = x.name.split("/").slice(1).join("/");
     $("#fileList").append(`<li>${filename}</li>`);
     $("#fileList li")
@@ -227,9 +244,9 @@ async function chooseFile(list) {
 }
 
 async function loadTest(zip) {
-  let fileList = zip.filter((x) => x.includes(".yml") || x.includes(".yaml"));
+  fileList = zip.filter((x) => x.includes(".yml") || x.includes(".yaml"));
   console.log("files:", fileList);
-
+  $('#loadOther').hide();
   let imgs = zip.filter((x) => x.includes(".png"));
 
   for await (const f of imgs) {
@@ -252,6 +269,7 @@ async function loadTest(zip) {
       startTest();
   } else {
     chooseFile(fileList);
+    $('#loadOther').show();
   }
   // player?.loadVideoById("GLm_gDsm1ZI");
   return "Test loaded successfully!";
@@ -424,11 +442,14 @@ function initiateCramminator() {
   // add keyboard support
   document.addEventListener("keydown", function (event) {
     if (event.key == "ArrowLeft") {
-      if (questions) prevQuestion();
+      if (questions && !$('#answer').is(':focus')) prevQuestion();
     } else if (event.key == "ArrowRight") {
-      if (questions) nextQuestion();
+      if (questions && !$('#answer').is(':focus')) nextQuestion();
     } else if (event.key == "Enter") {
       if (questions) checkTest();
+      $('#answer').is(':focus') ? $('#answer').blur() : $('#answer').focus(); 
+    } else if (event.key == "Escape") {
+      $('#answer').blur();
     } else {
       const number = Number(event.key);
       if (number != NaN) {
@@ -447,7 +468,7 @@ function reviewFailed() {
     alert("You haven't failed a single question yet");
     return;
   }
-  questions = failedQuestions;
+  file.questions = failedQuestions;
   failedQuestions = [];
   startTest();
 }

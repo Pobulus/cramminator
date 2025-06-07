@@ -28,7 +28,7 @@
       integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk"
       crossorigin="anonymous"
     ></script>
-    <title>Cramminator9020</title>
+    <title>Cramminator9021</title>
   </head>
   <body>
     <style id="testStyle"></style>
@@ -89,7 +89,7 @@
         <table>
           <tr>
             <td colspan="2">
-              <b id="loadedName">Nothing loaded...</b>
+              <a id="loadOther" style="display: none;" onclick="loadOther()" title="Choose other file">&lt;&nbsp;</a><b id="loadedName">Nothing loaded...</b>
             </td>
           </tr>
           <tr>
@@ -106,7 +106,7 @@
                 >
                   Back
                 </button>
-                <button onclick="checkTest()" class="button-77" role="button">
+                <button id="check" onclick="checkTest()" class="button-77" role="button">
                   Check
                 </button>
                 <button
