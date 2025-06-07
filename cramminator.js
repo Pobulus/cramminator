@@ -234,9 +234,9 @@ async function chooseFile(list) {
       .last()
       .click(async function () {
         await x.async("string").then((result) => loadQuestionsFile(result));
+        $("#loadedName").text(filename);
         startTest();
         $("#filePrompt").hide();
-        $("#loadedName").text(filename);
       });
   });
   $("#filePrompt").show();
