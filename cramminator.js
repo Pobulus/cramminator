@@ -119,16 +119,18 @@ function nextQuestion() {
       const options = allAnswers
         .map((o) => `<option value="${o[0]}">${o[1]}</option>`)
         .join("\n");
-      Object.entries(question.match).forEach((entry) =>
-        $("#question").html(
-          $("#question")
-            .html()
-            .replaceAll(
-              RegExp(`\\$${entry[0]}`, "g"),
-              `<select name="${entry[0]}"><option style="display:none">${overview ? entry[1] : ''}</option>${options}</select>`
-            )
-        )
-      );
+      Object.entries(question.match)
+        .sort((a, b) => b[0].length - a[0].length) // start with longest tags to avoid catching a prefix too early
+        .forEach((entry) =>
+          $("#question").html(
+            $("#question")
+              .html()
+              .replaceAll(
+                RegExp(`\\$${entry[0]}`, "g"),
+                `<select name="${entry[0]}"><option style="display:none">${overview ? entry[1] : ''}</option>${options}</select>`
+              )
+          )
+        );
     }
     $("#commentContent").text(question.comment || "");
     $("#question-image-error").text("");
@@ -217,7 +219,6 @@ function loadQuestionsFile(text) {
     localStorage.setItem("savedFile", JSON.stringify(file));
     console.log("loaded:", file);
   } catch (ex) {
-    alert(ex);
   }
 }
 async function loadOther() {

@@ -13,9 +13,14 @@
   --wrong-color-text: yellow;
   --selected-color: #d0b000;
 }
+#loadOther {
+  font-weight: 900;
+  font-size: 11px;
+  padding: 2px 9px;
+  margin-right: 3px;
+}
 #loadOther:hover {
   cursor: pointer;
-  font-weight: 900;
 }
 #extraControls{
   display: flex;
