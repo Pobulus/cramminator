@@ -216,7 +216,6 @@ function loadQuestionsFile(text) {
     localStorage.removeItem("savedFile");
     localStorage.setItem("savedFile", JSON.stringify(file));
     console.log("loaded:", file);
-    alert("Test loaded successfully!");
   } catch (ex) {
     alert(ex);
   }
