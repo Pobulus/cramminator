@@ -94,8 +94,26 @@ function parseToCSS(style) {
 function customSymbols(question) {
   const symbols = question.symbols || file.symbols
   if(!symbols) return null;
-  return symbols.map(symbol => `<button class="sym-key" onclick="$('#answer').val(() =>  $('#answer').val() + '${symbol}');$('#answer').focus()">${symbol}</button>`)
+  return symbols.map(symbol => `<button class="sym-key" onclick="insertChar('${symbol}')">${symbol}</button>`)
 }
+
+function insertChar(char) {
+  const val = $('#answer').val();
+  const start = $('#answer')[0].selectionStart;
+  const end = $('#answer')[0].selectionEnd;
+
+  // debugger;
+  let newVal = '';
+  if(typeof start !== 'null') {
+    newVal = val.slice(0, start) + char + val.slice(end);
+  } else {
+    newVal = val + char;
+  }
+  $('#answer').val(newVal);
+  $('#answer').focus();
+  $('#answer')[0].setSelectionRange(start + 1, start + 1);
+}
+
 function nextQuestion() {
   $("#prev").prop("disabled", false);
   if (testIndex === -1) $("#prev").prop("disabled", true);
