@@ -219,6 +219,7 @@ function loadQuestionsFile(text) {
     localStorage.setItem("savedFile", JSON.stringify(file));
     console.log("loaded:", file);
   } catch (ex) {
+    alert(ex)
   }
 }
 async function loadOther() {
@@ -359,10 +360,12 @@ function checkTest() {
   }
   renderKaTeX();
 }
-f.onchange = function () {
+f.onchange = function () { loadFileZIP(this.files[0]); }
+
+function loadFileZIP(file) {
   var zip = new JSZip();
 
-  zip.loadAsync(this.files[0] /* = file blob */).then(
+  zip.loadAsync(file).then(
     async function (zip) {
       // process ZIP file content here
       console.log(zip);
@@ -375,7 +378,7 @@ f.onchange = function () {
       alert("Not a valid zip file");
     }
   );
-};
+}
 
 function toggleHardcore() {
   hardcore = !hardcore;
@@ -429,16 +432,6 @@ function stopVideo() {
   player.stopVideo();
 }
 function initiateCramminator() {
-  // load saved questions
-  file = JSON.parse(localStorage.getItem("savedFile"));
-  questions = [...(file?.questions || [])];
-  images = JSON.parse(localStorage.getItem("savedImages")) || [];
-  folderName = localStorage.getItem("savedFolderName");
-  console.log("loaded saved file: ", questions);
-  if (questions) {
-    $("#loadedName").text("saved file");
-    startTest();
-  }
   // add keyboard support
   document.addEventListener("keydown", function (event) {
     if (event.key == "ArrowLeft") {
@@ -461,7 +454,34 @@ function initiateCramminator() {
       }
     }
   });
+
+  // load saved questions
+  file = JSON.parse(localStorage.getItem("savedFile"));
+  questions = [...(file?.questions || [])];
+  images = JSON.parse(localStorage.getItem("savedImages")) || [];
+  folderName = localStorage.getItem("savedFolderName");
+  console.log("loaded saved file: ", questions);
+  if (questions.length) {
+    $("#loadedName").text("saved file");
+    startTest();
+  }
+  // check query parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const catBoxURL = urlParams.get('cb');
+  const googleDriveURL = urlParams.get('gd');
+  if(catBoxURL) {
+    getFromURL(`https://files.catbox.moe/${catBoxURL}.zip`);
+  } else if(googleDriveURL) {
+    getFromURL(`https://drive.google.com/uc?export=download&id=${googleDriveURL}`);
+  }
 }
+updateDownloadLink = (url) => $('#testDownload').prop('href', url).text(`Download test file`)
+
+getFromURL = (url) => $("#loadedName").text("Downloading...") && updateDownloadLink(url) && fetch(url)
+  .then(resp => resp.status === 200 ? resp.blob() : Promise.reject('something went wrong'))
+  .then(blob => $("#loadedName").text("Downloaded") && loadFileZIP(blob))
+  .catch(() => alert(`Error accessing file from ${url}`) && $("#loadedName").text("Download failed :("));
+
 function reviewFailed() {
   if (overview) return;
   if (!failedQuestions.length) {

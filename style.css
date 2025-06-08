@@ -28,7 +28,11 @@
   max-width: 15vw;
   align-items: stretch;
 }
-
+#testDownload {
+  position: absolute;
+  bottom: 5px;
+  color: #bbbbff
+}
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
